@@ -22,6 +22,13 @@ public class Mascota {
     public void setEdad(int edad) { this.edad = edad; }
     public void setSexo(String sexo) { this.sexo = sexo; }
     public void setSize(String size) { this.size = size; }
+    public String getNombre() { return this.nombre; }
+    public String getRaza() { return this.raza; }
+    public int getEdad() { return this.edad; }
+    public String getSexo() { return this.sexo; }
+    public String getTarjetaVacunas() { return this.tarjetaVacunas; }
+    public EstadoMascota getEstado() { return this.estado; }
+    public String getHistorialEventos() { return this.historialEventos; }
     public void setTarjetaVacunas(String tarjetaVacunas) { this.tarjetaVacunas = tarjetaVacunas; }
     public void setHistorialEventos(String historialEventos) { this.historialEventos = historialEventos; }
 
