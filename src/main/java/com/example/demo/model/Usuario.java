@@ -2,9 +2,10 @@ package com.example.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable; // Importar
 
-public class Usuario {
-
+public class Usuario implements Serializable {
+    private static final long serialVersionUID = 1L; // Buena práctica añadir esto
     // Atributos basados en el diagrama UML
     private String nombreUsuario;
     private String contrasena;
