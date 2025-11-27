@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>🏡 Sistema de Refugios de Mascotas</title>
+    <link rel="stylesheet" th:href="@{/styles/index.css}" />
 </head>
 <body>
-$END$
+
+<div class="container">
+    <h1>🐾 Adopta a tu nueva Mascota - Refugios</h1>
+    <p style="text-align: center; color: #7f8c8d;">
+        Esta es la página principal de tu aplicación web con **Spring Boot y Thymeleaf**.
+    </p>
+
+    <hr style="border-color: #bdc3c7; margin: 30px 0;">
+
+    <div class="option-box">
+        <h2>Creación de Refugios (Factory)</h2>
+        <p>Ir a la página para crear un Refugio de Gatos o Perros.</p>
+        <p><a href="/refugios/crear">Ir a Crear Refugios &rarr;</a></p>
+    </div>
+
+    <div class="option-box">
+        <h2>Acceso al Sistema (Login)</h2>
+        <p>Acceder a funciones administrativas.</p>
+        <p><a href="/login">Ir a la Pantalla de Login &rarr;</a></p>
+    </div>
+
+</div>
+
 </body>
 </html>

@@ -1,4 +1,12 @@
 package com.example.demo.state;
 
-public class EstadoMascota {
+import com.example.demo.model.Mascota;
+
+public interface EstadoMascota {
+    void adoptarMascota(Mascota mascota);
+
+    void devolverMascota(Mascota mascota);
+
+    String getNombreEstado();
+
 }
