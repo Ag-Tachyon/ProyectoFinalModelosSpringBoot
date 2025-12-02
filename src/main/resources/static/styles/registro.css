@@ -1,0 +1,36 @@
+.registro{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 3.125rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.formulario__container{
+    width: 40%;
+}
+
+.form{
+    background-color: var(--white);
+    width: 100%;
+    border-radius: .3125em;
+    padding: 15px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25em;
+}
+
+.form__icons-container{
+    display: flex;
+}
+
+.form__icon{
+    color: var(--white);
+    padding: 0 20px;
+}

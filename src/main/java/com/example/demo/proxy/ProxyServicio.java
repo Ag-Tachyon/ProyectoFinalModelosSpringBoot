@@ -25,7 +25,7 @@ public class ProxyServicio implements Servicio {
             return;
         }
 
-        if (esAdmin && !usuario.isEsAdmin()) {
+        if (esAdmin && !usuario.getEsAdmin()) {
             System.err.println("❌ Proxy: Petición bloqueada. Intento de acceso administrativo sin privilegios.");
             // No se llama al ServicioReal
             return;

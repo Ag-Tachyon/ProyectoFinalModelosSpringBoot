@@ -1,0 +1,25 @@
+:root{
+    --dust-gray: #E1D6D7;
+    --powder-blue: #96BBD9;
+    --air-force-blue: #6C87A1;
+    --cool-horizon: #77AADD;
+    --blue-state: #576B82;
+    --white: white;
+    --black: black;
+    --Taupe: #4C4039;
+    --ink-black: #090E14;
+    --white-smoke: #F5F5F5;
+    --gray: rgb(41, 41, 41);
+
+    --font-poppins: "Poppins", sans-serif;
+    --font-nunito: "Nunito", sans-serif;
+}
+
+body{
+    font-family: var(--font-poppins);
+    background-color: var(--white-smoke);
+}
+
+a{
+    text-decoration: none;
+}

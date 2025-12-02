@@ -2,59 +2,62 @@ package com.example.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable; // Importar
+import java.io.Serializable;
 
 public class Usuario implements Serializable {
-    private static final long serialVersionUID = 1L; // Buena práctica añadir esto
-    // Atributos basados en el diagrama UML
+
+    private static final long serialVersionUID = 1L;
+
     private String nombreUsuario;
     private String contrasena;
-    private boolean esAdmin;
+    private Boolean esAdmin;
     private List<Mascota> mascotas;
 
-    /**
-     * Constructor utilizado para inicializar un objeto Usuario.
-     * Este constructor está basado en los parámetros de prueba que usaste,
-     * pero tipado correctamente (String, String, boolean, List<Mascota>).
-     */
+    // 👉 Constructor vacío requerido por Spring
+    public Usuario() {}
+
+    // 👉 Constructor completo que tú usas manualmente si quieres
     public Usuario(String nombreUsuario, String contrasena, boolean esAdmin, List<Mascota> mascotas) {
         this.nombreUsuario = nombreUsuario;
         this.contrasena = contrasena;
         this.esAdmin = esAdmin;
-
-        // Aseguramos que la lista no sea nula
         this.mascotas = (mascotas != null) ? mascotas : new ArrayList<>();
     }
 
-    // --- Getters del diagrama UML y necesarios para el Proxy ---
+    // --- Getters y Setters necesarios para formularios ---
 
     public String getNombreUsuario() {
         return nombreUsuario;
     }
 
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
     public String getContrasena() {
-        // En una aplicación real, no se retornaría la contraseña en texto plano
         return contrasena;
     }
 
-    // Este método es usado por el ProxyServicio para verificar privilegios
-    public boolean isEsAdmin() {
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public Boolean getEsAdmin() {
         return esAdmin;
     }
 
-    // --- Otros métodos del diagrama UML ---
-
-    // Método para obtener el rol del usuario (simplificado)
-    public String getRol() {
-        return this.esAdmin ? "Administrador" : "Cliente";
+    public void setEsAdmin(Boolean esAdmin) {
+        this.esAdmin = esAdmin;
     }
 
-    // Método getMascotas()
     public List<Mascota> getMascotas() {
         return mascotas;
     }
 
-    // Método toString() para representación
+    public void setMascotas(List<Mascota> mascotas) {
+        this.mascotas = mascotas;
+    }
+
     @Override
     public String toString() {
         return "Usuario [nombreUsuario=" + nombreUsuario + ", esAdmin=" + esAdmin +

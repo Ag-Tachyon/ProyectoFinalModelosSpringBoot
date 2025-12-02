@@ -1,33 +1,97 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>🏡 Sistema de Refugios de Mascotas</title>
-    <link rel="stylesheet" th:href="@{/styles/index.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refugio de Mascostas</title>
+    <link rel="stylesheet" th:href="@{/styles/reset.css}">
+    <link rel="stylesheet" th:href="@{/styles/index.css}">
+    <link rel="stylesheet" th:href="@{/styles/bases.css}">
+    <link rel="stylesheet" th:href="@{/styles/card.css}">
+    <link rel="stylesheet" th:href="@{/styles/carruselIndex.css}">
+    <link rel="stylesheet" th:href="@{/styles/registro.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <script th:src="@{/js/carrusel.js}" defer></script>
 </head>
 <body>
+    <main>
+        <section class="inicio">
+            <video muted autoplay loop preload="auto" style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: .3;">
+                <source th:src="@{/videos/videoMascotaIII.mp4}" type="video/mp4">
+                Tu navegador no soporta la etiqueta de video.
+            </video>
+            <section class="info-incial"> 
+                <header class="header">
+                    <ul class="header__ul">
+                        <li class="header_li">
+                            <a th:href="@{/}" class="header_link">Inicio</a>
+                        </li>
 
-<div class="container">
-    <h1>🐾 Adopta a tu nueva Mascota - Refugios</h1>
-    <p style="text-align: center; color: #7f8c8d;">
-        Esta es la página principal de tu aplicación web con **Spring Boot y Thymeleaf**.
-    </p>
+                        <li class="header_li">
+                            <a th:href="@{/about}" class="header_link">Sobre Nosotros</a>
+                        </li>
 
-    <hr style="border-color: #bdc3c7; margin: 30px 0;">
+                        <li class="header_li">
+                            <a th:href="@{/registro}" class="header_link">Registro</a>
+                        </li>
+                    </ul>
+                </header>
 
-    <div class="option-box">
-        <h2>Creación de Refugios (Factory)</h2>
-        <p>Ir a la página para crear un Refugio de Gatos o Perros.</p>
-        <p><a href="/refugios/crear">Ir a Crear Refugios &rarr;</a></p>
-    </div>
+                <div class="title">
+                    <h1>Encuentra a tu mejor Amigo</h1>
+                    <a href="" class="title__a title__btn">Conoce más</a>
+                </div>
+            </section>
 
-    <div class="option-box">
-        <h2>Acceso al Sistema (Login)</h2>
-        <p>Acceder a funciones administrativas.</p>
-        <p><a href="/login">Ir a la Pantalla de Login &rarr;</a></p>
-    </div>
+        </section>
+    
+        <section class="sobre-nosotros">
+            <article class="descripcion"> 
+                <h2 class="descripcion__h2">
+                    ¿Quiénes somos?
+                </h2>  
+                <p class="descripcion__p">
+                    Nuestro propósito va más allá de un simple acto de adopción. Somos el puente que une dos almas destinadas a sanarse y complementarse. Aquí, cada cola que se mueve, cada ronroneo y cada pequeña pata está lista para escribir contigo una nueva historia.
+                    No estás adoptando una mascota, estás abriendo la puerta a tu mejor amigo, a un compañero incondicional que te recordará a diario el verdadero significado del amor sin condiciones.
+                    Te invitamos a recorrer nuestro santuario. Tu alma gemela peluda te está esperando.
+                </p>
+            </article>
+            <div class="carrusel">
+                <div class="carrusel__container" id="carousel-slide">
+                    <div class="slider__container">
+                        <div class="slider">
+                            <img src="https://www.aon.es/personales/seguro-perro-gato/wp-content/uploads/sites/2/2021/07/chow-chow-perro.jpg" alt="" class="carrusel__img">
+                            <img src="https://petscare-assets-prod.s3.amazonaws.com/media/original_images/siamese-cat-playing-feather-toy-ohio-62137.webp" alt="" class="carrusel__img">
+                            <img src="https://www.hola.com/horizon/landscape/14fcc7702377-samoyedo-t.jpg" alt="" class="carrusel__img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-</div>
+        <section class="registro">
+            <div class="formulario__container">
+                <form th:action="@{/registro}" th:object="${usuario}" method="post">
 
+                    <label>Nombre de usuario:</label>
+                    <input type="text" th:field="*{nombreUsuario}" /><br>
+
+                    <label>Contraseña:</label>
+                    <input type="password" th:field="*{contrasena}" /><br>
+
+                    <label>Administrador:</label>
+                    <input type="checkbox" th:field="*{esAdmin}" /><br>
+
+                    <button type="submit">Registrar</button>
+                </form>
+            </div>
+
+            s
+        </section>
+    </main>
 </body>
 </html>

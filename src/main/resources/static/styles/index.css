@@ -1,6 +1,107 @@
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-.container { background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); max-width: 700px; width: 90%; }
-h1 { color: #2c3e50; text-align: center; margin-bottom: 30px; }
-.option-box { background: #ecf0f1; padding: 25px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #3498db; transition: background-color 0.3s; }
-.option-box:hover { background-color: #d8e1e7; cursor: pointer; }
-a { text-decoration: none; color: #2980b9; font-weight: bold; }
+body{
+    background-color: var(--white-smoke);
+}
+
+.inicio{
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inicio video{
+    position: absolute;
+    z-index: 1;
+}
+
+.info-incial{
+    width: 95%;
+    height: 92%;
+
+    position: relative; 
+    z-index: 2;
+}
+
+.info-principal{
+    width: 100%;
+    height: 100%;
+}
+
+.header a{
+    color: var(--white);
+    transition: all .2s;
+    padding: .625rem;
+    border-radius: .1875rem;
+}
+
+.header a:hover{
+    opacity: .5;
+}
+
+.header__ul{
+    display: flex;
+    gap: 3.125em;
+}
+
+.title{
+    position: absolute;
+    top: 15.625rem;
+    left: 9.375rem;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title h1{
+    color: var(--white);
+    font-size: 4.375rem;
+    font-weight: bold;
+    padding-bottom: 50px;
+}
+
+.title__btn{
+    background-color: var(--cool-horizon);
+    padding: .9375em;
+    border-radius: .375em;
+    color: var(--white);
+
+    transition: all .2s;
+}
+
+.title__btn:hover{
+    opacity: .8;
+}
+
+.sobre-nosotros{
+    height: 450px; 
+    width: 100%; 
+    padding: .625rem; 
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.descripcion{
+    width: 50%;
+    padding: 0.9375rem;
+}
+
+.descripcion__h2{
+    padding-bottom: .9375em;
+    font-size: 2.5em;
+    font-weight: bolder;
+}
+
+.descripcion__p{
+    width: 100%;
+    text-align: justify;
+    line-height: 1.875rem;
+}
