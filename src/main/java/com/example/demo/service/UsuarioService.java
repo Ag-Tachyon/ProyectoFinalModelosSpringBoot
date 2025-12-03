@@ -1,28 +1,39 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Usuario;
-import com.example.demo.repository.UsuarioFileRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UsuarioService {
 
-    private final UsuarioFileRepository repo;
+    private static final String RUTA = "src/main/resources/usuarios.json";
+    private final ObjectMapper mapper = new ObjectMapper();
 
-    public UsuarioService(UsuarioFileRepository repo) {
-        this.repo = repo;
-    }
+    public void guardarUsuario(Usuario usuario) {
+        try {
+            File file = new File(RUTA);
 
-    public void registrar(Usuario usuario) {
-        // Validación básica
-        if (repo.findByNombre(usuario.getNombreUsuario()) != null) {
-            throw new IllegalArgumentException("El nombre de usuario ya existe");
+            List<Usuario> usuarios;
+
+            // Si no existe el archivo, crea la lista vacía
+            if (!file.exists()) {
+                usuarios = new ArrayList<>();
+            } else {
+                usuarios = mapper.readValue(file, new TypeReference<List<Usuario>>() {});
+            }
+
+            usuarios.add(usuario);
+
+            mapper.writerWithDefaultPrettyPrinter().writeValue(file, usuarios);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        repo.save(usuario);
-    }
-
-    public boolean existe(String nombreUsuario) {
-        return repo.findByNombre(nombreUsuario) != null;
     }
 }

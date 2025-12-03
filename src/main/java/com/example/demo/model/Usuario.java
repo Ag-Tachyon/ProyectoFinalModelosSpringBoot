@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable;
 
 public class Usuario implements Serializable {
 
@@ -13,10 +13,7 @@ public class Usuario implements Serializable {
     private Boolean esAdmin;
     private List<Mascota> mascotas;
 
-    // 👉 Constructor vacío requerido por Spring
-    public Usuario() {}
-
-    // 👉 Constructor completo que tú usas manualmente si quieres
+    // 👉 Constructor completo
     public Usuario(String nombreUsuario, String contrasena, boolean esAdmin, List<Mascota> mascotas) {
         this.nombreUsuario = nombreUsuario;
         this.contrasena = contrasena;
@@ -24,8 +21,9 @@ public class Usuario implements Serializable {
         this.mascotas = (mascotas != null) ? mascotas : new ArrayList<>();
     }
 
-    // --- Getters y Setters necesarios para formularios ---
+    public Usuario() {}
 
+    // Getters y setters
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -56,11 +54,5 @@ public class Usuario implements Serializable {
 
     public void setMascotas(List<Mascota> mascotas) {
         this.mascotas = mascotas;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario [nombreUsuario=" + nombreUsuario + ", esAdmin=" + esAdmin +
-                ", numMascotas=" + mascotas.size() + "]";
     }
 }

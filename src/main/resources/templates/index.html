@@ -75,19 +75,25 @@
 
         <section class="registro">
             <div class="formulario__container">
-                <form th:action="@{/registro}" th:object="${usuario}" method="post">
-
-                    <label>Nombre de usuario:</label>
-                    <input type="text" th:field="*{nombreUsuario}" /><br>
+                <form th:action="@{/registrar}" th:object="${usuario}" method="post">
+                    <label>Nombre:</label>
+                    <label>
+                        <input type="text" th:field="*{nombreUsuario}"/>
+                    </label>
 
                     <label>Contraseña:</label>
-                    <input type="password" th:field="*{contrasena}" /><br>
+                    <label>
+                        <input type="password" th:field="*{contrasena}"/>
+                    </label>
 
-                    <label>Administrador:</label>
-                    <input type="checkbox" th:field="*{esAdmin}" /><br>
+                    <label>Admin:</label>
+                    <label>
+                        <input type="checkbox" th:field="*{esAdmin}"/>
+                    </label>
 
                     <button type="submit">Registrar</button>
                 </form>
+
             </div>
 
             s
