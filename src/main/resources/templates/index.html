@@ -83,12 +83,12 @@
 
                     <label>Contraseña:</label>
                     <label>
-                        <input type="password" th:field="*{contrasena}"/>
+                        <input type="password" th:field="*{contrasena}" required/>
                     </label>
 
                     <label>Admin:</label>
                     <label>
-                        <input type="checkbox" th:field="*{esAdmin}"/>
+                        <input type="checkbox" th:field="*{esAdmin}" required/>
                     </label>
 
                     <button type="submit">Registrar</button>
