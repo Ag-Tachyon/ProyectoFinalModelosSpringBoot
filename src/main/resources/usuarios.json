@@ -3,4 +3,9 @@
   "contrasena" : "lkñl",
   "esAdmin" : true,
   "mascotas" : null
+}, {
+  "nombreUsuario" : "juan",
+  "contrasena" : "123",
+  "esAdmin" : false,
+  "mascotas" : null
 } ]

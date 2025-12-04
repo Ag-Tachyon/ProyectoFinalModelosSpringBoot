@@ -1,0 +1,75 @@
+/* Estilos para el Footer */
+
+/* Variables de ejemplo basadas en tu CSS */
+:root {
+    --black: #000000;
+    --white: #ffffff;
+    --powder-blue: #96BBD9; /* Tu color de acento para enlaces */
+    --poppins: "Poppins", sans-serif;
+}
+
+.main-footer {
+    /* Usamos el negro para un cierre elegante */
+    background-color: var(--black);
+    color: var(--white);
+    padding: 40px 20px; /* Relleno superior/inferior generoso */
+    font-family: var(--poppins);
+}
+
+.footer-content {
+    /* Centra el contenido y limita el ancho máximo */
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex; /* Permite que las columnas se alineen horizontalmente */
+    justify-content: space-between; /* Distribuye el espacio entre las columnas */
+    flex-wrap: wrap; /* Permite que las columnas bajen en móvil */
+}
+
+/* Estilos para cada columna */
+.footer-brand, .footer-links, .footer-meta {
+    width: 30%; /* Ocupa un 30% del ancho en desktop */
+    min-width: 200px; /* Mínimo para que se vea bien en dispositivos pequeños */
+    margin-bottom: 20px; /* Espacio entre columnas en móvil */
+}
+
+/* Títulos y texto */
+.main-footer h3, .main-footer h4 {
+    color: var(--white);
+    margin-bottom: 15px;
+}
+
+/* Estilo de los enlaces */
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.main-footer a {
+    color: var(--white); /* Color base del enlace */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.main-footer a:hover {
+    /* Efecto hover con tu color azul claro */
+    color: var(--powder-blue); 
+}
+
+/* Estilos del Copyright */
+.copyright {
+    margin-top: 20px;
+    font-size: 0.8em;
+    opacity: 0.7; /* Lo hace menos prominente */
+}
+
+/* Media Query para móvil: apila las columnas verticalmente */
+@media (max-width: 768px) {
+    .footer-brand, .footer-links, .footer-meta {
+        width: 100%; 
+        min-width: auto;
+    }
+}
