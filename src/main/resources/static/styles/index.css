@@ -35,8 +35,8 @@ body{
 .header a{
     color: var(--white);
     transition: all .2s;
-    padding: .625rem;
-    border-radius: .1875rem;
+    padding: 10px;
+    border-radius: 3px;
 }
 
 .header a:hover{
@@ -50,8 +50,8 @@ body{
 
 .title{
     position: absolute;
-    top: 15.625rem;
-    left: 9.375rem;
+    top: 250px;
+    left: 150px;
 
     display: flex;
     align-items: center;
@@ -60,9 +60,9 @@ body{
 
 .title h1{
     color: var(--white);
-    font-size: 4.375rem;
+    font-size: 70px;
     font-weight: bold;
-    padding-bottom: 50px;
+    padding-bottom: 3.125rem;
 }
 
 .title__btn{
@@ -79,9 +79,9 @@ body{
 }
 
 .sobre-nosotros{
-    height: 450px; 
+    height: 28.125rem; 
     width: 100%; 
-    padding: .625rem; 
+    padding: 10px; 
     box-sizing: border-box;
 
     display: flex;
@@ -91,7 +91,7 @@ body{
 
 .descripcion{
     width: 50%;
-    padding: 0.9375rem;
+    padding: 15px;
 }
 
 .descripcion__h2{
@@ -103,5 +103,36 @@ body{
 .descripcion__p{
     width: 100%;
     text-align: justify;
-    line-height: 1.875rem;
+    line-height: 30px;
+}
+
+.icons-descrip__container{
+    width: 50%;
+    height: 21.875em;
+    
+    gap: 3.125em;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.incon-descrip__pet{
+    background-color: var(--dust-gray);
+    border-radius: .5em;
+    padding: .925em;
+    transition: all .2s;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.incon-descrip__pet:hover{
+    transform: scale(.98);
+}
+
+.incon-descrip__pet p{
+    padding-top: .9375em;
+    font-size: 1.25em;
 }

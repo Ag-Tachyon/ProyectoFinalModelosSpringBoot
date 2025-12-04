@@ -10,27 +10,99 @@
 
 .formulario__container{
     width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario__title{
+    text-align: center;
+    padding-bottom: .2875em;
+    text-transform: uppercase;
+    font-size: 2.187rem;
+    font-weight: 500;
+}
+
+input{
+    font-family: var(--font-poppins);
+
+    outline: none;
+    border: none;
 }
 
 .form{
-    background-color: var(--white);
-    width: 100%;
+    background-color: transparent;
     border-radius: .3125em;
     padding: 15px;
     box-sizing: border-box;
+    width: 100%;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: inline;
     gap: 1.25em;
 }
 
-.form__icons-container{
+.formulario__container{
+    background-color: #1F1F1F;
     display: flex;
+    border-radius: 10px;
+    padding: 1.9375em;
+    color: var(--white);
+}
+
+label{
+    display: block;
+    padding-bottom: 1.525em;
+
+    display: flex;
+    flex-direction: column;
+    gap: .2375em;
+}
+
+.check-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.formulario__container label input[type='text'],
+.formulario__container label input[type='password']{
+    border: thin solid gray;
+    color: var(--white);
+    font-size: 1.25em;
+    padding: .625em;
+    box-sizing: border-box;
+    border-radius: .225em;
+    background-color: transparent;
 }
 
 .form__icon{
     color: var(--white);
     padding: 0 20px;
+}
+
+.btn-submit{
+    width: 100%;
+    padding: .8125em;
+    margin-top: 15px;
+    font-size: 1.125em;
+    border-radius: .225em;
+    text-transform: uppercase;
+    font-weight: 500;
+
+    background-color: var(--cool-horizon);
+    color: var(--white);
+
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.form__btn-conatainer{
+    text-align: center;
+}
+
+.form__btn-conatainer a{
+    display: inline;
+    text-decoration: underline;
+    color: var(--white);
 }
