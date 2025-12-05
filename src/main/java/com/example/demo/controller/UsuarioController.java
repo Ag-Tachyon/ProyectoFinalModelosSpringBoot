@@ -25,6 +25,6 @@ public class UsuarioController {
     @PostMapping("/registrar")
     public String registrarUsuario(Usuario usuario) {
         usuarioService.guardarUsuario(usuario);
-        return "registro_exitoso";
+        return "inicio_sesion";
     }
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- opcional -->
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <h2>Iniciar sesión</h2>
+
+    <!-- Mostrar mensaje de error si el login falla -->
+    <div th:if="${param.error}">
+        <p style="color: red;">Usuario o contraseña incorrectos</p>
+    </div>
+
+    <!-- FORM INICIO DE SESIÓN -->
+    <form th:action="@{/login}" method="post" class="form">
+
+        <label>
+            Nombre de usuario
+            <input type="text" name="nombre" autocomplete="off" required />
+        </label>
+
+        <label>
+            Contraseña
+            <input type="password" name="contrasena" required />
+        </label>
+
+        <label class="check-container">
+            Entrar como Admin
+            <input type="checkbox" name="admin" />
+        </label>
+
+        <div class="btn-container">
+            <a href="/" class="link">Crear cuenta</a>
+            <button type="submit" class="btn-submit">Ingresar</button>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
