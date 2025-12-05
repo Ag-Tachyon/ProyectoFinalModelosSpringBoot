@@ -4,35 +4,32 @@ import com.example.demo.model.Usuario;
 
 public class ProxyServicio implements Servicio {
 
-    // Referencia al objeto real (agregación del diagrama)
-    private ServicioReal servicioReal;
+    private final ServicioReal servicioReal;
 
-    // Constructor que inicializa el objeto real (Lazy Initialization podría aplicarse aquí)
     public ProxyServicio() {
         this.servicioReal = new ServicioReal();
     }
 
-    // El Proxy implementa el mismo método
     @Override
-    public void acceder(Usuario usuario, String contrasena, boolean esAdmin) {
+    public boolean acceder(Usuario usuario, String contrasenaIngresada, boolean adminIngresado) {
 
-        // --- Lógica de Control del Proxy (Acceso Restringido) ---
-
-        // Ejemplo de lógica adicional: solo permitir el acceso si el usuario es válido
-        if (usuario.getNombreUsuario() == null || usuario.getNombreUsuario().trim().isEmpty()) {
-            System.err.println("❌ Proxy: Petición bloqueada. Nombre de usuario no proporcionado.");
-            // No se llama al ServicioReal
-            return;
+        if (usuario == null) {
+            System.out.println("❌ Usuario inexistente");
+            return false;
         }
 
-        if (esAdmin && !usuario.getEsAdmin()) {
-            System.err.println("❌ Proxy: Petición bloqueada. Intento de acceso administrativo sin privilegios.");
-            // No se llama al ServicioReal
-            return;
+        if (!usuario.getContrasena().equals(contrasenaIngresada)) {
+            System.out.println("❌ Contraseña incorrecta");
+            return false;
         }
 
-        // Si todas las comprobaciones del Proxy pasan, delegamos la llamada al objeto real.
-        System.out.println("✅ Proxy: Petición validada. Delegando al ServicioReal...");
-        servicioReal.acceder(usuario, contrasena, esAdmin);
+        if (usuario.getEsAdmin() != adminIngresado) {
+            System.out.println("❌ No tiene permisos para este rol");
+            return false;
+        }
+
+        System.out.println("✔ Validado por Proxy (rol correcto)");
+
+        return servicioReal.acceder(usuario, contrasenaIngresada, adminIngresado);
     }
 }

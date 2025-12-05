@@ -13,7 +13,7 @@ public class Usuario implements Serializable {
     private Boolean esAdmin;
     private List<Mascota> mascotas;
 
-    // 👉 Constructor completo
+    // Constructor completo
     public Usuario(String nombreUsuario, String contrasena, boolean esAdmin, List<Mascota> mascotas) {
         this.nombreUsuario = nombreUsuario;
         this.contrasena = contrasena;
@@ -21,6 +21,7 @@ public class Usuario implements Serializable {
         this.mascotas = (mascotas != null) ? mascotas : new ArrayList<>();
     }
 
+    // Constructor vacío → obligatorio para Spring
     public Usuario() {}
 
     // Getters y setters
@@ -41,6 +42,11 @@ public class Usuario implements Serializable {
     }
 
     public Boolean getEsAdmin() {
+        return esAdmin;
+    }
+
+    // ✔ Getter estilo JavaBean
+    public Boolean isEsAdmin() {
         return esAdmin;
     }
 

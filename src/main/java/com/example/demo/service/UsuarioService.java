@@ -1,39 +1,28 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Usuario;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UsuarioService {
 
-    private static final String RUTA = "src/main/resources/usuarios.json";
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final List<Usuario> usuarios = new ArrayList<>();
 
-    public void guardarUsuario(Usuario usuario) {
-        try {
-            File file = new File(RUTA);
+    public void guardarUsuario(Usuario u) {
+        usuarios.add(u);
+    }
 
-            List<Usuario> usuarios;
-
-            // Si no existe el archivo, crea la lista vacía
-            if (!file.exists()) {
-                usuarios = new ArrayList<>();
-            } else {
-                usuarios = mapper.readValue(file, new TypeReference<List<Usuario>>() {});
-            }
-
-            usuarios.add(usuario);
-
-            mapper.writerWithDefaultPrettyPrinter().writeValue(file, usuarios);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public Usuario buscarPorNombre(String nombre) {
+        return usuarios.stream()
+                .filter(x -> x.getNombreUsuario().equalsIgnoreCase(nombre))
+                .findFirst()
+                .orElse(null);
     }
 }
