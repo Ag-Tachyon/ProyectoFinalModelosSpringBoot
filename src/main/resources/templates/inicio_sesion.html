@@ -5,44 +5,56 @@
     <meta charset="UTF-8">
     <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="/css/styles.css"> <!-- opcional -->
+</head><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/reset.css">
+    <link rel="stylesheet" href="./styles/bases.css">
+    <link rel="stylesheet" href="./styles/registro.css">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+    
+    <div class="formulario__container">
 
-<body>
+        <h2 class="formulario__title">Iniciar sesión</h2>        
 
-<div class="login-container">
+        <!-- FORM INICIO DE SESIÓN -->
+        <form th:action="@{/login}" method="post" class="form">
 
-    <h2>Iniciar sesión</h2>
+            <label>
+                Nombre de usuario
+                <input type="text" name="nombre" autocomplete="off" required />
+            </label>
 
-    <!-- Mostrar mensaje de error si el login falla -->
-    <div th:if="${param.error}">
-        <p style="color: red;">Usuario o contraseña incorrectos</p>
+            <label>
+                Contraseña
+                <input type="password" name="contrasena" required />
+            </label>
+
+            <label class="check-container">
+                Entrar como Admin
+                <input type="checkbox" name="admin" />
+            </label>
+
+            <div th:if="${param.error}">
+                <p style="color: red;">Usuario o contraseña incorrectos</p>
+            </div>
+
+            <div class="form__btn-conatainer" style="padding-top: 15px;">
+                <a href="principal.html" class="">Crear cuenta</a>
+                <button class="btn-submit" type="submit">Unirme</button>
+            </div>
+
+        </form>
     </div>
 
-    <!-- FORM INICIO DE SESIÓN -->
-    <form th:action="@{/login}" method="post" class="form">
-
-        <label>
-            Nombre de usuario
-            <input type="text" name="nombre" autocomplete="off" required />
-        </label>
-
-        <label>
-            Contraseña
-            <input type="password" name="contrasena" required />
-        </label>
-
-        <label class="check-container">
-            Entrar como Admin
-            <input type="checkbox" name="admin" />
-        </label>
-
-        <div class="btn-container">
-            <a href="/" class="link">Crear cuenta</a>
-            <button type="submit" class="btn-submit">Ingresar</button>
-        </div>
-
-    </form>
-
-</div>
-
 </body>
+</html>
