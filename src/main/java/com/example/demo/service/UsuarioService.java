@@ -1,12 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.Decorator.*;
 import com.example.demo.model.Usuario;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +13,26 @@ import java.util.List;
 public class UsuarioService {
 
     private final List<Usuario> usuarios = new ArrayList<>();
+    private final Notificacion notificacionCorreo;
+    @Autowired
+    public UsuarioService(NotificacionCorreo notificacionCorreo) {
+        this.notificacionCorreo = notificacionCorreo;
+    }
 
     public void guardarUsuario(Usuario u) {
-        usuarios.add(u);
+        usuarios.add(u);    Notificacion canal = notificacionCorreo;
+
+        Notificacion notificador =
+                new MensajeBienvenida(
+                        new MensajePromocion(
+                                canal,u),
+                        u
+                );
+
+        notificador.enviarMensaje(
+                "Este es un mensaje con todos los decoradores!",
+                u.getCorreoUsuario()
+        );
     }
 
     public Usuario buscarPorNombre(String nombre) {

@@ -2,18 +2,21 @@ package com.example.demo.Decorator;
 
 import com.example.demo.model.Usuario;
 
-public class MensajePromocion {
+public class MensajePromocion extends BaseNotifier {
 
-    private Usuario cliente;
-    private Notificacion notificador;
+    private final Usuario cliente;
 
-    public MensajePromocion(Notificacion notificador, Usuario cliente) {
-        this.notificador = notificador;
+    public MensajePromocion(Notificacion wrapper, Usuario cliente) {
+        super(wrapper);
         this.cliente = cliente;
     }
 
-    public void enviarMensaje(String mensaje) {
-        System.out.println("Mensaje de Promoción para " + cliente);
-        notificador.enviarMensaje(mensaje);
+    @Override
+    public void enviarMensaje(String mensaje, String destinatario) {
+        System.out.println("🎉 Mensaje de PROMOCIÓN para: " + cliente.getNombreUsuario());
+        String mensajeDecorado = "✨ Oferta especial para ti ✨\n" + mensaje;
+
+        super.enviarMensaje(mensajeDecorado, destinatario);
     }
 }
+

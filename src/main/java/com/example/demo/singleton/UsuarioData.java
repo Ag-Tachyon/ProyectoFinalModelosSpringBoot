@@ -72,9 +72,9 @@ public class UsuarioData implements DataManager<Usuario> {
     private List<Usuario> crearUsuariosIniciales() {
         List<Usuario> usuarios = new ArrayList<>();
         // Crea un usuario administrador por defecto
-        usuarios.add(new Usuario("admin", "admin123", true, new ArrayList<>()));
+        usuarios.add(new Usuario("admin", "admin123", true, new ArrayList<>(),"manolito777@gmail.com"));
         // Crea un usuario cliente por defecto
-        usuarios.add(new Usuario("cliente", "pass", false, new ArrayList<>()));
+        usuarios.add(new Usuario("cliente", "pass", false, new ArrayList<>(),"manolonormal@gmail.com"));
 
         // Guarda esta lista inicial para que el archivo exista la próxima vez
         guardarDatos(usuarios);
