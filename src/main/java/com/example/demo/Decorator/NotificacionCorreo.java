@@ -24,6 +24,7 @@ public class NotificacionCorreo extends BaseNotifier {
     }
 
     private void enviarCorreo(String mensaje, String destinatario) {
+
         try {
             SimpleMailMessage email = new SimpleMailMessage();
             email.setTo(destinatario);
