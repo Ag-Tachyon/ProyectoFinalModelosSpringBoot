@@ -7,9 +7,16 @@ public abstract class BaseNotifier implements Notificacion {
     public BaseNotifier(Notificacion wrapper) {
         this.wrapper = wrapper;
     }
-
     @Override
-    public void enviarMensaje(String mensaje) {
-        wrapper.enviarMensaje(mensaje);
+    public void enviarMensaje(String mensaje, String destinatario) {
+        if (wrapper != null) {
+            wrapper.enviarMensaje(mensaje, destinatario);
+        }else System.out.println("Fin de la cadena de notificaciones");
+    }
+
+    public Notificacion getWrapper() {
+        return wrapper;
     }
 }
+
+

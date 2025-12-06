@@ -12,8 +12,8 @@ public class MensajePromocion {
         this.cliente = cliente;
     }
 
-    public void enviarMensaje(String mensaje) {
+    public void enviarMensaje(String mensaje,String destinatario) {
         System.out.println("Mensaje de Promoción para " + cliente);
-        notificador.enviarMensaje(mensaje);
+        notificador.enviarMensaje(mensaje,destinatario);
     }
 }

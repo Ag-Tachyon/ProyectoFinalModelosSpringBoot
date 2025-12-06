@@ -12,8 +12,8 @@ public class MensajeEstado {
         this.cliente = cliente;
     }
 
-    public void enviarMensaje(String mensaje) {
+    public void enviarMensaje(String mensaje, String destinatario) {
         System.out.println("Mensaje de Estado para " + cliente);
-        notificador.enviarMensaje(mensaje);
+        notificador.enviarMensaje(mensaje,destinatario);
     }
 }
