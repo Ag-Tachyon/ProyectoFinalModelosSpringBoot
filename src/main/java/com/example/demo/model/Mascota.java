@@ -25,6 +25,7 @@ public class Mascota {
     public String getNombre() { return this.nombre; }
     public String getRaza() { return this.raza; }
     public int getEdad() { return this.edad; }
+    public String getSize(){return this.size;}
     public String getSexo() { return this.sexo; }
     public String getTarjetaVacunas() { return this.tarjetaVacunas; }
     public EstadoMascota getEstado() { return this.estado; }
