@@ -1,10 +1,214 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Adming Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/reset.css">
+    <link rel="stylesheet" href="./styles/bases.css">
+    <link rel="stylesheet" href="./styles/admin.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="height: 100vh; display: flex; flex-direction: column;">
+
+    <header class="header flex">
+        <div class="header__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-ease-in-out-control-points"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 20a2 2 0 1 0 4 0a2 2 0 0 0 -4 0z" /><path d="M17 20h-2" /><path d="M7 4a2 2 0 1 1 -4 0a2 2 0 0 1 4 0z" /><path d="M7 4h2" /><path d="M14 4h-2" /><path d="M12 20h-2" /><path d="M3 20c8 0 10 -16 18 -16" /></svg>
+        </div>
+        <div class="flex header__info-container">
+            <div class="flex header__input-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon calendar icon-tabler icons-tabler-outline icon-tabler-calendar-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11.5 21h-5.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4.5" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M20.2 20.2l1.8 1.8" /></svg>
+                <input type="search" class="header__search" placeholder="Buscar" autocomplete="off">
+                <button class="flex header__btn header__btn--filtrar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-alt"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 8h4v4h-4z" /><path d="M6 4l0 4" /><path d="M6 12l0 8" /><path d="M10 14h4v4h-4z" /><path d="M12 4l0 10" /><path d="M12 18l0 2" /><path d="M16 5h4v4h-4z" /><path d="M18 4l0 1" /><path d="M18 9l0 11" /></svg>
+                    <p>Filtrar</p>
+                </button>
+                <button class="flex header__btn header__btn--plus">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                </button>
+            </div>
+            <div class="flex header__icons-container">
+                <button class="flex header__btn header__btn--no-fondo" style="align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-forward"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 11l4 4l-4 4m4 -4h-11a4 4 0 0 1 0 -8h1" /></svg>
+                </button>
+                <button class="flex header__btn header__btn--no-fondo" style="align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-clipboard-data"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17.997 4.17a3 3 0 0 1 2.003 2.83v12a3 3 0 0 1 -3 3h-10a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 2.003 -2.83a4 4 0 0 0 3.997 3.83h4a4 4 0 0 0 3.98 -3.597zm-8.997 7.83a1 1 0 0 0 -1 1v4a1 1 0 0 0 2 0v-4a1 1 0 0 0 -1 -1m3 3a1 1 0 0 0 -1 1v1a1 1 0 0 0 1 1l.117 -.007a1 1 0 0 0 .883 -.993v-1a1 1 0 0 0 -1 -1m3 -1a1 1 0 0 0 -1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0 -1 -1m-1 -12a2 2 0 1 1 0 4h-4a2 2 0 1 1 0 -4z" /></svg>
+                </button>
+                <button class="flex header__btn header__btn--no-fondo" style="align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-alarm"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 13m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M12 10l0 3l2 0" /><path d="M7 4l-2.75 2" /><path d="M17 4l2.75 2" /></svg>
+                </button>
+                <button class="flex header__btn header__btn--no-fondo" style="align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-file-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 2l.117 .007a1 1 0 0 1 .876 .876l.007 .117v4l.005 .15a2 2 0 0 0 1.838 1.844l.157 .006h4l.117 .007a1 1 0 0 1 .876 .876l.007 .117v9a3 3 0 0 1 -2.824 2.995l-.176 .005h-10a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-14a3 3 0 0 1 2.824 -2.995l.176 -.005zm3.707 10.293a1 1 0 0 0 -1.414 0l-3.293 3.292l-1.293 -1.292a1 1 0 1 0 -1.414 1.414l2 2a1 1 0 0 0 1.414 0l4 -4a1 1 0 0 0 0 -1.414m-.707 -9.294l4 4.001h-4z" /></svg>
+                </button>
+                <button class="flex header__btn header__btn--no-fondo" style="align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-route-square"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 17h4v4h-4z" /><path d="M17 3h4v4h-4z" /><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex info">
+        <div class="flex info__img-container">
+            <img src="https://i.pinimg.com/736x/d6/a6/bc/d6a6bc967a64e26cc39ea8fb7b1fa99d.jpg" alt="" class="header__img" style="width: 30px; height: 30px; object-fit: cover; border-radius: .375em;">
+            <p class="info__p">WorkSpace</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-compact-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 11l8 3l8 -3" /></svg>
+        </div>
+
+        <div class="flex info__descrip">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-home"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.707 2.293l9 9c.63 .63 .184 1.707 -.707 1.707h-1v6a3 3 0 0 1 -3 3h-1v-7a3 3 0 0 0 -2.824 -2.995l-.176 -.005h-2a3 3 0 0 0 -3 3v7h-1a3 3 0 0 1 -3 -3v-6h-1c-.89 0 -1.337 -1.077 -.707 -1.707l9 -9a1 1 0 0 1 1.414 0m.293 11.707a1 1 0 0 1 1 1v7h-4v-7a1 1 0 0 1 .883 -.993l.117 -.007z" /></svg>
+            
+            <button class="flex header__btn" style="align-items: center; gap: .625em; background-color: var(--powder-blue); color: var(--white);">
+                Gestionar Secciones
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-sort-ascending-shapes"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 15l3 3l3 -3" /><path d="M7 6v12" /><path d="M14 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /><path d="M17 14l-3.5 6h7z" /></svg>
+            </button>
+        </div>
+    </div>
+
+    <main class="flex main">
+        <nav class="aside">
+            <ul class="aside__ul">
+                <a href="" class="aside__link">
+                    <li class="aside__list-item aside__list-item--inicio">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-home-bitcoin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 21v-6m2 0v-1.5m0 9v-1.5m-2 -3h3m-1 0h.5a1.5 1.5 0 0 1 0 3h-3.5m3 -3h.5a1.5 1.5 0 0 0 0 -3h-3.5" /><path d="M19.5 10.5l-7.5 -7.5l-9 9h2v7a2 2 0 0 0 2 2h6" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2c.387 0 .748 .11 1.054 .3" /><path d="M21 15h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" /></svg>
+                        <p class="aside__p">Inicio</p>
+                    </li>
+                </a>
+                <a href="" class="aside__link">
+                    <li class="aside__list-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-align-box-center-top"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 19v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" /><path d="M11 13h2" /><path d="M9 10h6" /><path d="M10 7h4" /></svg>
+                        <p class="aside__p">Bandeja de Entrada</p>
+                    </li>
+                </a>
+                <a href="" class="aside__link">
+                    <li class="aside__list-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-asana"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M17 16m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M7 16m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /></svg>
+                        <p class="aside__p">Equipos</p>
+                    </li>
+                </a>
+                <a href="" class="aside__link">
+                    <li class="aside__list-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-layout-sidebar-right-inactive"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M15 4v1" /><path d="M15 9v1" /><path d="M15 14v1" /><path d="M15 19v1" /></svg>
+                        <p class="aside__p">Paneles</p>
+                    </li>
+                </a>
+                <a href="" class="aside__link">
+                    <li class="aside__list-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-file-info"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 2l.117 .007a1 1 0 0 1 .876 .876l.007 .117v4l.005 .15a2 2 0 0 0 1.838 1.844l.157 .006h4l.117 .007a1 1 0 0 1 .876 .876l.007 .117v9a3 3 0 0 1 -2.824 2.995l-.176 .005h-10a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-14a3 3 0 0 1 2.824 -2.995l.176 -.005zm0 12h-1a1 1 0 0 0 0 2v3a1 1 0 0 0 1 1h1a1 1 0 0 0 1 -1l-.007 -.117a1 1 0 0 0 -.876 -.876l-.117 -.007v-3a1 1 0 0 0 -1 -1m.01 -3h-.01a1 1 0 0 0 -.117 1.993l.127 .007a1 1 0 0 0 0 -2" /><path d="M19 7h-4l-.001 -4.001z" /></svg>
+                        <p class="aside__p">Formularios</p>
+                    </li>
+                </a>
+                <a href="" class="aside__link">
+                    <li class="aside__list-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-math-integrals"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 19a2 2 0 0 0 2 2c2 0 2 -4 3 -9s1 -9 3 -9a2 2 0 0 1 2 2" /><path d="M11 19a2 2 0 0 0 2 2c2 0 2 -4 3 -9s1 -9 3 -9a2 2 0 0 1 2 2" /></svg>
+                        <p class="aside__p">Metas</p>
+                    </li>
+                </a>
+                <a href="" class="aside__link">
+                    <li class="aside__list-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clock-12"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 0 0 9 9m9 -9a9 9 0 1 0 -18 0" /><path d="M12 7v5l.5 .5" /><path d="M18 15h2a1 1 0 0 1 1 1v1a1 1 0 0 1 -1 1h-1a1 1 0 0 0 -1 1v1a1 1 0 0 0 1 1h2" /><path d="M15 21v-6" /></svg>
+                        <p class="aside__p">Tiempos</p>
+                    </li>
+                </a>
+            </ul>
+
+            <ul class="aside__ul" style="padding-top: .625em; border: none;">
+                <p class="ul__title">Favoritos</p>
+            </ul>
+        </nav>
+
+        <section class="flex info-refugios-container">
+            <div class="refugios-info refugios-list">
+                <header class="flex refugios-list__header">
+                    <h2 class="refugios-list__title">Refugios</h2>
+                    <button class="flex refugios-list__btn" id="btnMostrarForm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                    </button>
+                </header>
+
+                <div class="refugios-list__list" id="contenedorRefugios">
+                    <div class="refugio">
+                        <p>nombre</p>
+                        <p>Dirección</p>
+                        <p>Capacidad</p>
+                        <p>Mascotas</p>
+                        <button class="regfugio__btn-crear-eevento">
+                            Crear evento
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+
+
+    <form id="formRefugio" style="display: none;" class="form-refugio">
+        <h3>Registrar Refugio</h3>
+
+        <input type="text" id="nombre" placeholder="Nombre del refugio" required>
+
+        <input type="text" id="direccion" placeholder="Dirección" required>
+
+        <input type="number" id="capacidad" placeholder="Capacidad" required>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+
+    <script>
+        const btnMostrar = document.getElementById("btnMostrarForm");
+        const form = document.getElementById("formRefugio");
+
+        btnMostrar.addEventListener("click", () => {
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        });
+
+        document.getElementById("formRefugio").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const refugio = {
+                nombre: document.getElementById("nombre").value,
+                direccion: document.getElementById("direccion").value,
+                capacidad: parseInt(document.getElementById("capacidad").value)
+            };
+
+            const response = await fetch("/refugios/agregar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(refugio)
+            });
+
+            const nuevoRefugio = await response.json();
+
+            // Aquí agregas la tarjeta en pantalla
+            agregarTarjeta(nuevoRefugio);
+        });
+
+
+        function agregarTarjeta(refugio) {
+            const cont = document.getElementById("contenedorRefugios");
+
+            const card = document.createElement("div");
+            card.classList.add("refugio");
+
+            card.innerHTML = `
+        <h3>${refugio.nombre}</h3>
+        <p><strong>Dirección:</strong> ${refugio.direccion}</p>
+        <p><strong>Capacidad:</strong> ${refugio.capacidad}</p>
+    `;
+
+            cont.appendChild(card);
+        }
+
+    </script>
 
 </body>
 </html>
