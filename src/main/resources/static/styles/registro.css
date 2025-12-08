@@ -65,6 +65,7 @@ label{
 }
 
 .formulario__container label input[type='text'],
+.formulario__container label input[type='email'],
 .formulario__container label input[type='password']{
     border: thin solid gray;
     color: var(--white);

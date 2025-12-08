@@ -1,0 +1,244 @@
+:root{
+    --gray-icon: rgb(168, 168, 168);
+}
+
+.flex{
+    display: flex;
+}
+
+a{
+    text-decoration: none;
+}
+
+input,
+button{
+    outline: none;
+    border: none;
+    font-family: var(--font-poppins);
+}
+
+button{
+    transition: all .2s;
+}
+
+button:hover{
+    opacity: .5;
+}
+
+.header{
+    padding: 10px;
+    padding-bottom: 3.6px;
+    box-sizing: border-box;
+    background-color: var(--white);
+
+    justify-content: space-between;
+}
+
+.header svg{
+    color: var(--gray-icon)
+}
+
+.header__info-container{
+    align-items: center;
+    gap: .625em;
+}
+
+.header__input-container{
+    gap: .625em;
+    align-items: center;
+}
+
+.header__btn{
+    padding: .225em .575em;
+    border-radius: .3125em;
+    cursor: pointer;
+}
+
+.header__input-container .header__btn--filtrar{
+    background-color: var(--powder-blue);
+
+    color: var(--white);
+    font-weight: 500;
+    
+    align-items: center;
+    gap: .625em;
+}
+
+.header__btn--filtrar svg{
+    color: var(--white);
+}
+
+.calendar{
+    background-color: var(--blue-state);
+    padding: .225em .375em;
+    border-radius: .3125em;
+}
+
+.header__btn--plus{
+    align-items: center;
+}
+
+.header__search{
+    background-color: rgb(221, 221, 221);
+    padding: .225em;
+    padding-left: .5em;
+    border-radius: .3125em;
+    box-sizing: border-box;
+    width: 25.625em;
+}
+
+.header__icons-container{
+    border-left: solid var(--gray-icon) thin;
+    padding-left: .8125em;
+
+    gap: .825em;
+}
+
+
+.header__btn--no-fondo{
+    background-color: transparent;
+}
+
+.info{
+    padding: .8125em;
+    box-sizing: border-box;
+    background-color: var(--white-smoke);
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info__img-container{
+    align-items: center;
+    gap: .9375em;
+    width: 25%;
+    border-right: solid thin var(--gray-icon);
+}
+
+.info__descrip{
+    width: 75%;
+    padding-left: .9375em;
+    box-sizing: border-box;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info__descrip svg{
+    color: var(--gray-icon);
+}
+
+.info__descrip .header__btn svg{
+    color: var(--white);
+}
+
+.aside{
+    padding: 10px;
+    box-sizing: border-box;
+    height: 100%;
+    width: 20%;
+}
+
+.aside ul{
+    border-bottom: solid thin var(--gray-icon);
+    padding-bottom: .3125em;
+}
+
+.aside a{
+    color: var(--black); 
+}
+
+.aside__list-item{
+    /* background-color: rebeccapurple; */
+    padding: .625em;
+    margin-top: 1%;
+    border-radius: .5em;
+    /* font-weight: bold; */
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.aside__list-item:hover{
+    background-color: rgb(221, 221, 221);
+}
+
+.ul__title{
+    font-size: .8125em;
+    color: var(--gray-icon);
+}
+
+.main{
+    flex-grow: 1;
+}
+
+.info-refugios-container{
+    margin-left: 6%;
+    width: 73.5%;
+
+    /* align-items: center; */
+    /* justify-content: center; */
+    padding: .9375em;
+    box-sizing: border-box;
+}
+
+.info-refugios-container::-webkit-scrollbar,
+.refugios-list__list::-webkit-scrollbar{
+    background-color: transparent;
+    width: 2px;
+}
+
+.refugios-info{
+    border-radius: .9375em;
+    padding: 11.6px;
+    box-sizing: border-box;
+}
+
+.refugios-list{
+    background-color: var(--white);
+    color: var(--black);
+    width: 55%;
+    height: 60%;
+}
+
+.refugios-list__header{
+    /* background-color: red; */
+    padding-bottom: .625em;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.refugios-list__title{
+    font-size: .8125em;
+    padding-left: .5em;
+}
+
+.refugios-list button{
+    align-items: center;
+    border-radius: .25rem;
+    color: var(--black);
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.refugios-list__list{
+    padding: .9375rem 0;
+    height: 75%;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    gap: .9375em;
+
+    overflow-y: scroll;
+}
+
+.refugio{
+    background-color: var(--white-smoke);
+    padding: .625rem;
+    box-sizing: border-box;
+    border-radius: .3125em;
+    width: 48%;
+    height: 150px;
+}
