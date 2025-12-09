@@ -1,13 +1,23 @@
 package com.example.demo.bridge;
 
+import java.nio.charset.StandardCharsets;
+
 public class HTMLExporter implements Exporter {
+
     @Override
-    public void exportar(String contenido) {
-        // Lógica para dar formato HTML al contenido
-        System.out.println("--- EXPORTANDO A HTML ---");
-        System.out.println("<html><body>");
-        System.out.println(contenido);
-        System.out.println("</body></html>");
-        System.out.println("Documento HTML generado exitosamente.");
+    public byte[] export(String content) {
+        String html = """
+                <html>
+                    <head>
+                        <meta charset="UTF-8"/>
+                        <title>Documento</title>
+                    </head>
+                    <body>
+                       %s
+                    </body>
+                </html>
+                """.formatted(content);
+
+        return html.getBytes(StandardCharsets.UTF_8);
     }
 }

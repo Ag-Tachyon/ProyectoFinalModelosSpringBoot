@@ -92,10 +92,14 @@
                         Admin
                         <input type="checkbox" th:field="*{esAdmin}"/>
                     </label>
-                    
+
                     <div class="form__btn-conatainer">
-                        <a href="./inicio_sesion" class="">ya tengo cuenta</a>
                         <button class="btn-submit" type="submit">Unirme</button>
+                    </div>
+                </form>
+                <form class="form" th:action="@{/registrar}" method="post">
+                    <div class="form__btn-conatainer">
+                        <button class="btn-submit" type="submit">Ya tengo Cuenta</button>
                     </div>
                 </form>
             </div>

@@ -1,25 +1,29 @@
 package com.example.demo.Facade;
 
-import com.example.demo.model.Mascota;
-import com.example.demo.model.Usuario;
+import com.example.demo.bridge.*;
 
-public class CertificadoAdopcion {
+public class CertificadoAdopcion extends GenerarDocumento {
 
-    private Mascota mascota;
-    private Usuario veterinario,cliente;
+    private final String nombre;
+    private final String adoptante;
 
-    private StringBuilder info;
-    public CertificadoAdopcion(Mascota mascota, Usuario veterinario) {
-        this.mascota = mascota;
-        this.veterinario = veterinario;
-        this.cliente = cliente;
+    public CertificadoAdopcion(Exporter exporter,
+                                       String nombre,
+                                       String adoptante) {
+
+        super(exporter);
+        this.nombre = nombre;
+        this.adoptante = adoptante;
     }
-    public void generar(){
-        info = new StringBuilder("Datos de la mascota \n" +
-                mascota.mostrarInfo()+
-                "veterinario y propietario "+ veterinario.getNombreUsuario()+" y "
-                +cliente.getNombreUsuario());
-    }
-    //llamar a generara documento posterior
 
+    @Override
+    public String buildContent() {
+        return """
+                Certificado de Adopción
+                Mascota: %s
+                Adoptante: %s
+
+                ¡Gracias por adoptar!
+                """.formatted(nombre, adoptante);
+    }
 }

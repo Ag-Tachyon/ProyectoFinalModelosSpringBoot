@@ -1,45 +1,28 @@
 package com.example.demo.Facade;
 
-import com.example.demo.model.Mascota;
-import com.example.demo.model.Usuario;
-import com.example.demo.bridge.GenerarDocumento;
-import com.example.demo.bridge.Exporter;
+import com.example.demo.bridge.*;
 
 public class FichaMedica extends GenerarDocumento {
 
-    private Mascota mascota;
-    private Usuario veterinario,cliente;
-    private StringBuilder info;
+    private final String nombreMascota;
+    private final String raza;
 
-    public FichaMedica(Mascota mascota, Usuario veterinario , Exporter exporter) {
+    public FichaMedica(Exporter exporter,
+                               String nombreMascota,
+                               String raza) {
+
         super(exporter);
-        this.mascota = mascota;
-        this.veterinario = veterinario;
-        this.cliente = cliente;
-    }
-
-    public void infMascota(Mascota mascota) {
-        this.mascota = mascota;
-
-        this.titulo = "Ficha Médica";
-        this.contenido =
-                "Mascota: " + mascota.getNombre() +
-                        "\nEdad: " + mascota.getEdad() +
-                        "\nRaza: " + mascota.getRaza();
+        this.nombreMascota = nombreMascota;
+        this.raza = raza;
     }
 
     @Override
-    public void mostrar() {
-        System.out.println("=== " + titulo + " ===");
-        System.out.println(contenido);
-    }
-
-    @Override
-    protected void construirContenido() {
-        info = new StringBuilder("Historial medico de tu mascota: \n" +
-                mascota.getTarjetaVacunas() +
-                "\n veterinario y propietario "+
-                veterinario.getNombreUsuario()+" y "
-                +cliente.getNombreUsuario());
+    public String buildContent() {
+        return """
+                Ficha Médica
+                Mascota: %s
+                Raza: %s
+                Estado: %s
+                """.formatted(nombreMascota, raza);
     }
 }
