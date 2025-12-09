@@ -144,6 +144,10 @@
     </main>
 
 
+    <div>
+        <input id="msg" type="text" placeholder="Mensaje a enviar">
+        <button id="btnEnviar">Enviar notificación</button>
+    </div>
 
 
     <form id="formRefugio" style="display: none;" class="form-refugio">
@@ -212,6 +216,14 @@
 
             cont.appendChild(card);
         }
+
+        document.getElementById("btnEnviar").onclick = async () => {
+            const msg = document.getElementById("msg").value;
+
+            await fetch(`/notificaciones/enviar?mensaje=${msg}`, {
+                method: "POST"
+            });
+        };
     </script>
 
 </body>

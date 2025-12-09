@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div>
+        <input id="nombreUsuario" type="text" placeholder="Tu nombre">
+        <button id="btnSub">Recibir notificaciones</button>
+        <button id="btnUnsub">Dejar de recibir</button>
+
+        <p><strong>Observadores actuales:</strong> <span id="cantObs">0</span></p>
+    </div>
+
+    <div id="notificaciones"></div>
+
+    <script>
+        const nombreInput = document.getElementById("nombreUsuario");
+        const cantObs = document.getElementById("cantObs");
+
+        document.getElementById("btnSub").onclick = async () => {
+            const nombre = nombreInput.value;
+
+            const resp = await fetch(`/notificaciones/suscribirse?nombre=${nombre}`, {
+                method: "POST"
+            });
+
+            const data = await resp.json();
+            cantObs.textContent = data.cantidad;
+        };
+
+        document.getElementById("btnUnsub").onclick = async () => {
+            const nombre = nombreInput.value;
+
+            const resp = await fetch(`/notificaciones/desuscribirse?nombre=${nombre}`, {
+                method: "POST"
+            });
+
+            const data = await resp.json();
+            cantObs.textContent = data.cantidad;
+        };
+    </script>
+
+</body>
+</html>
