@@ -16,6 +16,7 @@ public class UsuarioService {
     private final List<Usuario> usuarios = new ArrayList<>();
     private final Notificacion notificacionCorreo;
     private UsuarioData usuarioData;
+
     @Autowired
     public UsuarioService(NotificacionCorreo notificacionCorreo) {
         this.notificacionCorreo = notificacionCorreo;
@@ -24,7 +25,7 @@ public class UsuarioService {
     public void guardarUsuario(Usuario u) {
         usuarios.add(u);    Notificacion canal = notificacionCorreo;
         usuarioData.guardarDatos(usuarios);
-        
+
         Notificacion notificador =
                 new MensajeBienvenida(
                         new MensajePromocion(
