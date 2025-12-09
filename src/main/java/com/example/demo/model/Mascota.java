@@ -17,6 +17,7 @@ public class Mascota implements Serializable {
     private String size;
     private int edad;
     private String sexo;
+    private String imagenUrl;
     private String tarjetaVacunas;
     private EstadoMascota estado;
     private String historialEventos;
@@ -39,6 +40,7 @@ public class Mascota implements Serializable {
     public void setEdad(int edad) { this.edad = edad; }
     public void setSexo(String sexo) { this.sexo = sexo; }
     public void setSize(String size) { this.size = size; }
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
     public void setTarjetaVacunas(String tarjetaVacunas) { this.tarjetaVacunas = tarjetaVacunas; }
     public void setHistorialEventos(String historialEventos) { this.historialEventos = historialEventos; }
 
@@ -46,6 +48,7 @@ public class Mascota implements Serializable {
     public String getRaza() { return raza; }
     public int getEdad() { return edad; }
     public String getSize() { return size; }
+    public String getImagenUrl() { return imagenUrl; }
     public String getSexo() { return sexo; }
     public String getTarjetaVacunas() { return tarjetaVacunas; }
     public EstadoMascota getEstado() { return estado; }
