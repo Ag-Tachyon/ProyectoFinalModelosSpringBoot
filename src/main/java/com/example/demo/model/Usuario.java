@@ -95,6 +95,7 @@ public class Usuario implements Serializable, Observer {
     public Boolean isEsAdmin() { return esAdmin; }
     public void setEsAdmin(Boolean esAdmin) { this.esAdmin = esAdmin; }
 
+
     public List<Mascota> getMascotas() { return mascotas; }
     public void setMascotas(List<Mascota> mascotas) { this.mascotas = mascotas; }
 }
