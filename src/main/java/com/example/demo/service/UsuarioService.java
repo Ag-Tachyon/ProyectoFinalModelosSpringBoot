@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.Decorator.*;
 import com.example.demo.model.Usuario;
+import com.example.demo.singleton.UsuarioData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class UsuarioService {
 
     private final List<Usuario> usuarios = new ArrayList<>();
     private final Notificacion notificacionCorreo;
+    private UsuarioData usuarioData;
     @Autowired
     public UsuarioService(NotificacionCorreo notificacionCorreo) {
         this.notificacionCorreo = notificacionCorreo;
@@ -21,7 +23,8 @@ public class UsuarioService {
 
     public void guardarUsuario(Usuario u) {
         usuarios.add(u);    Notificacion canal = notificacionCorreo;
-
+        usuarioData.guardarDatos(usuarios);
+        
         Notificacion notificador =
                 new MensajeBienvenida(
                         new MensajePromocion(
@@ -33,6 +36,7 @@ public class UsuarioService {
                 "Este es un mensaje con todos los decoradores!",
                 u.getCorreoUsuario()
         );
+
     }
 
     public Usuario buscarPorNombre(String nombre) {

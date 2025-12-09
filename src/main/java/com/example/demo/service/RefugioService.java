@@ -58,6 +58,7 @@ public class RefugioService {
 
     public void agregarRefugio(Refugio refugio) {
         refugios.add(refugio);
+
         guardar();
     }
 
