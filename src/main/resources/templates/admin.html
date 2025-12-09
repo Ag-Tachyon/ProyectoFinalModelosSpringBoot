@@ -254,6 +254,71 @@
                 alert("Ocurrió un error al enviar la notificación.");
             }
         };
+        // Función para cargar todos los refugios al iniciar
+        async function cargarRefugios() {
+            try {
+                const response = await fetch("/refugios");
+                if (response.ok) {
+                    const refugios = await response.json();
+                    mostrarRefugios(refugios);
+                } else {
+                    console.error("Error al cargar refugios:", response.status);
+                }
+            } catch (error) {
+                console.error("Error en la carga de refugios:", error);
+            }
+        }
+
+        // Función para mostrar refugios en el contenedor
+        function mostrarRefugios(refugios) {
+            const contenedor = document.getElementById("contenedorRefugios");
+            contenedor.innerHTML = ""; // Limpiar antes de cargar
+
+            refugios.forEach(refugio => {
+                const card = document.createElement("div");
+                card.classList.add("refugio", "card");
+
+                card.innerHTML = `
+                <h3>${refugio.nombre}</h3>
+                <p><strong>Tipo:</strong> ${refugio.tipo === "gatos" ? "Gatos 🐱" : "Perros 🐶"}</p>
+                <p><strong>Dirección:</strong> ${refugio.direccion}</p>
+                <p><strong>Capacidad:</strong> ${refugio.capacidad}</p>
+                <p><strong>Mascotas:</strong> ${refugio.mascotas ? refugio.mascotas.length : 0}</p>
+                <button class="refugio__btn-crear-evento">
+                    Crear evento
+                </button>
+            `;
+
+                contenedor.appendChild(card);
+            });
+        }
+
+        // Modificar tu función agregarTarjeta existente
+        function agregarTarjeta(refugio) {
+            const contenedor = document.getElementById("contenedorRefugios");
+
+            const card = document.createElement("div");
+            card.classList.add("refugio", "card");
+
+            card.innerHTML = `
+            <h3>${refugio.nombre}</h3>
+            <p><strong>Tipo:</strong> ${refugio.tipo === "gatos" ? "Gatos 🐱" : "Perros 🐶"}</p>
+            <p><strong>Dirección:</strong> ${refugio.direccion}</p>
+            <p><strong>Capacidad:</strong> ${refugio.capacidad}</p>
+            <p><strong>Mascotas:</strong> ${refugio.mascotas ? refugio.mascotas.length : 0}</p>
+            <button class="refugio__btn-crear-evento">
+                Crear evento
+            </button>
+        `;
+
+            contenedor.appendChild(card);
+        }
+
+        // Cargar refugios cuando la página se cargue
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarRefugios();
+            actualizarCantidadAdmin();
+        });
     </script>
 
 </body>
