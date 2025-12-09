@@ -13,9 +13,9 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
-    private final List<Usuario> usuarios = new ArrayList<>();
     private final Notificacion notificacionCorreo;
     private UsuarioData usuarioData = UsuarioData.getAdministrador() ;
+    private final List<Usuario> usuarios = usuarioData.leerDatos();
 
     @Autowired
     public UsuarioService(NotificacionCorreo notificacionCorreo) {
