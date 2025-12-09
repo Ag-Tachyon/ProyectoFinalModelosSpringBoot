@@ -14,9 +14,6 @@
 ## Mapa de Usuario 🧐:
 * https://trello.com/invite/b/68f7acf52211b685fdf948f0/ATTI3075b61e4319142eb530dbc88f89a4a368B0D55C/proyectofinalmodelos
 
->[!CAUTION]
-> El trello se puede modificar, entonces tener cuidado XD
-
 ## Patrones Usados:
 * ### Creacionales:
 __Factory Method 🏭:__ Ayuda a crear los refugios de cada animal<br>
@@ -29,6 +26,15 @@ __Proxy 🔒:__ Contralo el acceso de los usuarios y admins<br>
 __Facade 🧱:__ Generación de documentos de la mascota a la hora de la adopción<br>
 __Bridge 🌉:__ Exportación de documentos de la mascota a HTML y PDF<br>
 __Decorator🎄:__ Determina el tipo de mensaje y el canal por donde se enviará<br>
+
+* ### Comportamentales:
+
+__Strategy 🎯: Filtros dinámicos para buscar mascotas según criterios seleccionados<br>
+__Observer 👁️: Envía notificaciones automáticas sobre vacunas, citas y eventos<br>
+__State 🔄: Maneja el estado de la mascota (disponible, convivencia, adoptada, devuelta)<br>
+__Visitor 📨: Permite agregar eventos al historial de la mascota sin modificar su clase<br>
+__Iterator 🔁: Recorre la lista de mascotas para aplicar los filtros del Strategy<br>
+__Command 🎛️: Encapsula las acciones de la interfaz (mostrar perros, aplicar filtro, generar documento)<br>
 
 ## Enunciado del ejercicio 📖: 
 El proyecto consiste en desarrollar una aplicación para facilitar la adopción de mascotas, conectando refugios de animales con personas interesadas en adoptar. La plataforma tiene como objetivo simplificar el proceso de adopción, garantizar el bienestar de las mascotas y proporcionar herramientas para un seguimiento adecuado de su estado después de ser adoptadas.
