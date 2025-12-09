@@ -2,35 +2,35 @@ package com.example.demo.service;
 
 import com.example.demo.model.Mascota;
 import com.example.demo.model.Refugio;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RefugioService {
 
-    private final String FILE_PATH = "refugios.json";
+    private final String FILE_PATH = "src/main/resources/data/refugios.data";
+
     private List<Refugio> refugios = new ArrayList<>();
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public RefugioService() {
         cargar();
     }
 
     // ---------------------------------------------------------
-    // Cargar JSON
+    // CARGAR ARCHIVO .data
     // ---------------------------------------------------------
+    @SuppressWarnings("unchecked")
     private void cargar() {
-        try {
-            File file = new File(FILE_PATH);
-            if (file.exists()) {
-                refugios = mapper.readValue(file, new TypeReference<List<Refugio>>() {});
-            }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
+            refugios = (List<Refugio>) ois.readObject();
+            System.out.println("RefugioService: datos cargados.");
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo de refugios no encontrado, creando lista vacía...");
+            refugios = new ArrayList<>();
+            guardar(); // crea el archivo
         } catch (Exception e) {
             e.printStackTrace();
             refugios = new ArrayList<>();
@@ -38,11 +38,12 @@ public class RefugioService {
     }
 
     // ---------------------------------------------------------
-    // Guardar JSON
+    // GUARDAR ARCHIVO .data
     // ---------------------------------------------------------
     private void guardar() {
-        try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), refugios);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            oos.writeObject(refugios);
+            System.out.println("RefugioService: archivo guardado.");
         } catch (IOException e) {
             e.printStackTrace();
         }
