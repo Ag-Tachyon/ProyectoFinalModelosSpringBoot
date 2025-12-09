@@ -12,9 +12,220 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilos adicionales para formularios y tarjetas */
+        .form-refugio {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            max-width: 450px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .form-refugio h3 {
+            margin: 0 0 20px 0;
+            color: #333;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .form-refugio input,
+        .form-refugio select {
+            width: 100%;
+            margin: 12px 0;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        .form-refugio input:focus,
+        .form-refugio select:focus {
+            outline: none;
+            border-color: #76a5ff;
+        }
+
+        .form-refugio button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .form-refugio button[type="submit"] {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .form-refugio button[type="submit"]:hover {
+            background: linear-gradient(135deg, #45a049, #3d8b40);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .form-refugio button[type="button"] {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+        }
+
+        .form-refugio button[type="button"]:hover {
+            background: linear-gradient(135deg, #d32f2f, #c62828);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .card {
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            background: white;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border-color: #76a5ff;
+        }
+
+        .card h3 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .card p {
+            margin: 8px 0;
+            color: #555;
+            font-size: 15px;
+        }
+
+        .card strong {
+            color: #333;
+        }
+
+        .mascota-list {
+            margin: 15px 0 0 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #76a5ff;
+        }
+
+        .mascota-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mascota-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e1e1e1;
+        }
+
+        .mascota-imagen {
+            max-width: 120px;
+            height: auto;
+            border-radius: 8px;
+            margin: 8px 0;
+            border: 2px solid #e1e1e1;
+        }
+
+        .estado-disponible {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .estado-adoptada {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .btn-seguir {
+            background: linear-gradient(135deg, #76a5ff, #4a7dff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-seguir:hover {
+            background: linear-gradient(135deg, #4a7dff, #3a6dff);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(118, 165, 255, 0.3);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .refugio-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e1e1e1;
+        }
+
+        .refugio-capacity {
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            background: #f0f0f0;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .capacity-full {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+
+        .capacity-available {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+    </style>
 </head>
 
 <body style="height: 100vh; display: flex; flex-direction: column;">
+
+<!-- Overlay para formularios -->
+<div class="overlay" id="overlay"></div>
 
 <!-- HEADER -->
 <header class="header flex">
@@ -24,9 +235,9 @@
 
     <div class="flex header__info-container">
         <div class="flex header__input-container">
-            <input type="search" class="header__search" placeholder="Buscar" autocomplete="off">
+            <input type="search" class="header__search" placeholder="Buscar refugios..." autocomplete="off" id="searchInput">
 
-            <button class="flex header__btn header__btn--filtrar">Filtrar</button>
+            <button class="flex header__btn header__btn--filtrar" onclick="filtrarRefugios()">Filtrar</button>
 
             <!-- BOTÓN FORM REFUGIO -->
             <button id="btnMostrarForm" class="flex header__btn header__btn--plus">
@@ -35,7 +246,7 @@
 
             <!-- BOTÓN FORM MASCOTA -->
             <button id="btnRegistrarMascota" class="flex header__btn header__btn--plus" style="background-color:#76a5ff;">
-                Registrar Mascota
+                Registrar Mascota (Builder)
             </button>
         </div>
     </div>
@@ -45,11 +256,10 @@
 <main class="flex main">
     <nav class="aside">
         <ul class="aside__ul">
-            <li class="aside__list-item">Inicio</li>
-            <li class="aside__list-item">Bandeja</li>
-            <li class="aside__list-item">Equipos</li>
-            <li class="aside__list-item">Paneles</li>
-            <li class="aside__list-item">Formularios</li>
+            <li class="aside__list-item" onclick="mostrarTodosRefugios()">🏠 Inicio</li>
+            <li class="aside__list-item" onclick="filtrarRefugiosPorTipo('gatos')">🐱 Refugios de Gatos</li>
+            <li class="aside__list-item" onclick="filtrarRefugiosPorTipo('perros')">🐶 Refugios de Perros</li>
+            <li class="aside__list-item" onclick="mostrarMascotasDisponibles()">❤️ Mascotas Disponibles</li>
         </ul>
     </nav>
 
@@ -57,7 +267,8 @@
     <section class="flex info-refugios-container">
         <div class="refugios-info refugios-list">
             <header class="flex refugios-list__header">
-                <h2 class="refugios-list__title">Refugios</h2>
+                <h2 class="refugios-list__title" id="tituloRefugios">Refugios</h2>
+                <span class="refugios-count" id="contadorRefugios">(0)</span>
             </header>
 
             <div class="refugios-list__list" id="contenedorRefugios">
@@ -68,143 +279,493 @@
 </main>
 
 <!-- FORM REFUGIO -->
-<form id="formRefugio" style="display: none;" class="form-refugio">
-    <h3>Registrar Refugio</h3>
+<form id="formRefugio" class="form-refugio">
+    <h3>🏠 Registrar Refugio</h3>
 
-    <input type="text" id="nombre" placeholder="Nombre" required>
-    <input type="text" id="direccion" placeholder="Dirección" required>
-    <input type="number" id="capacidad" placeholder="Capacidad" required>
+    <input type="text" id="nombre" placeholder="Nombre del refugio" required>
+    <input type="text" id="direccion" placeholder="Dirección completa" required>
+    <input type="number" id="capacidad" placeholder="Capacidad máxima" required min="1">
 
     <select id="tipo" required>
+        <option value="">Seleccionar tipo</option>
         <option value="gatos">Refugio de Gatos 🐱</option>
         <option value="perros">Refugio de Perros 🐶</option>
     </select>
 
-    <button type="submit">Guardar</button>
+    <button type="submit">✅ Guardar Refugio</button>
+    <button type="button" onclick="ocultarFormulario('formRefugio')">❌ Cancelar</button>
 </form>
 
 <!-- FORM MASCOTA -->
-<form id="formMascota" style="display: none;" class="form-refugio">
-    <h3>Registrar Mascota</h3>
+<form id="formMascota" class="form-refugio">
+    <h3>🐾 Registrar Mascota con Builder</h3>
 
-    <input type="text" id="m_nombre" placeholder="Nombre" required>
+    <input type="text" id="m_nombre" placeholder="Nombre de la mascota" required>
     <input type="text" id="m_raza" placeholder="Raza" required>
 
+    <select id="m_tipo" required onchange="actualizarEspecie()">
+        <option value="">Seleccionar especie</option>
+        <option value="gato">Gato 🐱</option>
+        <option value="perro">Perro 🐶</option>
+    </select>
+
     <select id="m_size" required>
+        <option value="">Seleccionar tamaño</option>
         <option value="pequeño">Pequeño</option>
         <option value="mediano">Mediano</option>
         <option value="grande">Grande</option>
     </select>
 
-    <input type="number" id="m_edad" placeholder="Edad" required>
+    <input type="number" id="m_edad" placeholder="Edad (años)" required min="0" max="30">
 
     <select id="m_sexo" required>
+        <option value="">Seleccionar sexo</option>
         <option value="macho">Macho</option>
         <option value="hembra">Hembra</option>
     </select>
 
-    <!-- ⭐ CAMPO NUEVO: URL DE IMAGEN -->
-    <input type="text" id="m_imagen" placeholder="URL de imagen " required>
+    <input type="text" id="m_vacunas" placeholder="Vacunas (ej: Parvovirus, Rabia)" required>
 
-    <select id="m_refugio" required></select>
+    <select id="m_estado" required>
+        <option value="">Seleccionar estado</option>
+        <option value="false">🟢 Disponible para adopción</option>
+        <option value="true">❤️ Ya adoptada</option>
+    </select>
 
-    <button type="submit">Guardar Mascota</button>
+    <input type="text" id="m_imagen" placeholder="URL de imagen (https://...)" required>
+
+    <select id="m_refugio" required>
+        <option value="">Cargando refugios...</option>
+    </select>
+
+    <button type="submit">🚀 Crear Mascota con Builder</button>
+    <button type="button" onclick="ocultarFormulario('formMascota')">❌ Cancelar</button>
 </form>
 
-
-<!-- SCRIPTS -->
+<!-- SCRIPT PRINCIPAL -->
 <script>
-    /* Mostrar/Ocultar formularios */
-    const formRef = document.getElementById("formRefugio");
-    const btnMostrar = document.getElementById("btnMostrarForm");
+    // Variables globales
+    let todosRefugios = [];
 
-    btnMostrar.onclick = () => {
-        formRef.style.display = formRef.style.display === "none" ? "block" : "none";
-    };
-
-    const btnMascota = document.getElementById("btnRegistrarMascota");
-    const formMascota = document.getElementById("formMascota");
-
-    btnMascota.onclick = () => {
-        formMascota.style.display = formMascota.style.display === "none" ? "block" : "none";
-        cargarRefugiosEnSelectMascota();
-    };
-
-
-    /* Cargar refugios en el select */
-    async function cargarRefugiosEnSelectMascota() {
-        const resp = await fetch("/refugios");
-        const lista = await resp.json();
-
-        const select = document.getElementById("m_refugio");
-        select.innerHTML = "";
-
-        lista.forEach(r => {
-            select.innerHTML += `<option value="${r.nombre}">${r.nombre}</option>`;
-        });
-    }
-
-
-    /* Registrar Mascota */
-    document.getElementById("formMascota").addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const mascota = {
-            nombre: document.getElementById("m_nombre").value,
-            raza: document.getElementById("m_raza").value,
-            size: document.getElementById("m_size").value,
-            edad: parseInt(document.getElementById("m_edad").value),
-            sexo: document.getElementById("m_sexo").value,
-            imagenUrl: document.getElementById("m_imagen").value  // ⭐ Nuevo!
-        };
-
-        const refugio = document.getElementById("m_refugio").value;
-
-        const resp = await fetch(`/mascotas/registrar?refugio=${refugio}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(mascota)
-        });
-
-        if (resp.ok) {
-            alert("Mascota registrada correctamente");
-            formMascota.reset();
-            formMascota.style.display = "none";
-            cargarRefugios();
-        } else {
-            alert("Error al registrar la mascota");
-        }
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+        cargarRefugios();
+        inicializarFormularios();
     });
 
+    function inicializarFormularios() {
+        // Ocultar formularios al inicio
+        ocultarFormulario('formRefugio');
+        ocultarFormulario('formMascota');
 
-    /* Cargar y mostrar refugios */
-    async function cargarRefugios() {
-        const resp = await fetch("/refugios");
-        const refugios = await resp.json();
-        mostrarRefugios(refugios);
+        // Configurar formulario de refugio
+        document.getElementById('formRefugio').addEventListener('submit', registrarRefugio);
+
+        // Configurar formulario de mascota
+        document.getElementById('formMascota').addEventListener('submit', registrarMascota);
+
+        // Configurar búsqueda
+        document.getElementById('searchInput').addEventListener('input', buscarRefugios);
     }
 
+    // Funciones para mostrar/ocultar formularios
+    function mostrarFormulario(idFormulario) {
+        document.getElementById(idFormulario).style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+
+        if (idFormulario === 'formMascota') {
+            cargarRefugiosEnSelectMascota();
+        }
+    }
+
+    function ocultarFormulario(idFormulario) {
+        document.getElementById(idFormulario).style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById(idFormulario).reset();
+    }
+
+    // Eventos para botones del header
+    document.getElementById('btnMostrarForm').onclick = () => mostrarFormulario('formRefugio');
+    document.getElementById('btnRegistrarMascota').onclick = () => mostrarFormulario('formMascota');
+
+    // Registrar Refugio
+    async function registrarRefugio(e) {
+        e.preventDefault();
+
+        const dto = {
+            nombre: document.getElementById('nombre').value,
+            direccion: document.getElementById('direccion').value,
+            capacidad: parseInt(document.getElementById('capacidad').value),
+            tipo: document.getElementById('tipo').value
+        };
+
+        try {
+            const resp = await fetch('/refugios/agregar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dto)
+            });
+
+            if (resp.ok) {
+                const refugio = await resp.json();
+                alert(`✅ Refugio "${refugio.nombre}" registrado exitosamente`);
+                ocultarFormulario('formRefugio');
+                cargarRefugios();
+            } else {
+                const error = await resp.text();
+                alert(`❌ Error: ${error}`);
+            }
+        } catch (error) {
+            alert(`❌ Error de conexión: ${error.message}`);
+        }
+    }
+
+    // Cargar refugios en el select de mascotas
+    async function cargarRefugiosEnSelectMascota() {
+        try {
+            const resp = await fetch('/refugios');
+            const lista = await resp.json();
+
+            const select = document.getElementById('m_refugio');
+            select.innerHTML = '<option value="">Seleccionar refugio</option>';
+
+            lista.forEach(r => {
+                const mascotasActuales = r.mascotas ? r.mascotas.length : 0;
+                const espaciosDisponibles = r.capacidad - mascotasActuales;
+
+                if (espaciosDisponibles > 0) {
+                    select.innerHTML += `
+                        <option value="${r.nombre}">
+                            ${r.nombre} - ${espaciosDisponibles} espacios disponibles
+                        </option>
+                    `;
+                }
+            });
+
+            if (select.options.length === 1) {
+                select.innerHTML = '<option value="">No hay refugios con capacidad disponible</option>';
+                select.disabled = true;
+            } else {
+                select.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error cargando refugios:', error);
+            document.getElementById('m_refugio').innerHTML = '<option value="">Error cargando refugios</option>';
+        }
+    }
+
+    // Registrar Mascota usando Builder Pattern
+    async function registrarMascota(e) {
+        e.preventDefault();
+
+        // Validar campos
+        const refugio = document.getElementById('m_refugio').value;
+        if (!refugio) {
+            alert('⚠️ Por favor selecciona un refugio disponible');
+            return;
+        }
+
+        // Crear DTO para Builder
+        const mascotaDTO = {
+            nombre: document.getElementById('m_nombre').value,
+            raza: document.getElementById('m_raza').value,
+            tipo: document.getElementById('m_tipo').value,
+            size: document.getElementById('m_size').value,
+            edad: parseInt(document.getElementById('m_edad').value),
+            sexo: document.getElementById('m_sexo').value,
+            vacunas: document.getElementById('m_vacunas').value,
+            estadoInicial: document.getElementById('m_estado').value === 'true',
+            imagenUrl: document.getElementById('m_imagen').value
+        };
+
+        // Validar URL de imagen
+        if (!mascotaDTO.imagenUrl.startsWith('http')) {
+            if (!confirm('⚠️ La URL de imagen no parece válida. ¿Deseas continuar?')) {
+                return;
+            }
+        }
+
+        try {
+            console.log('Enviando mascota:', mascotaDTO);
+
+            const resp = await fetch(`/mascotas/registrar?refugio=${encodeURIComponent(refugio)}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(mascotaDTO)
+            });
+
+            const data = await resp.text();
+            console.log('Respuesta del servidor:', data);
+
+            if (resp.ok) {
+                alert(`✅ Mascota "${mascotaDTO.nombre}" registrada exitosamente usando Builder Pattern!`);
+                ocultarFormulario('formMascota');
+                cargarRefugios();
+            } else {
+                alert(`❌ Error: ${data}`);
+            }
+        } catch (error) {
+            console.error('Error en registro:', error);
+            alert(`❌ Error de conexión: ${error.message}`);
+        }
+    }
+
+    // Cargar y mostrar todos los refugios
+    async function cargarRefugios() {
+        try {
+            const resp = await fetch('/refugios');
+            todosRefugios = await resp.json();
+            mostrarTodosRefugios();
+        } catch (error) {
+            console.error('Error cargando refugios:', error);
+            document.getElementById('contenedorRefugios').innerHTML = `
+                <div class="card">
+                    <h3>⚠️ Error</h3>
+                    <p>No se pudieron cargar los refugios: ${error.message}</p>
+                </div>
+            `;
+        }
+    }
+
+    // Mostrar todos los refugios
+    function mostrarTodosRefugios() {
+        mostrarRefugios(todosRefugios);
+        document.getElementById('tituloRefugios').textContent = 'Todos los Refugios';
+    }
+
+    // Mostrar refugios con filtrado
     function mostrarRefugios(refugios) {
-        const cont = document.getElementById("contenedorRefugios");
-        cont.innerHTML = "";
+        const cont = document.getElementById('contenedorRefugios');
+        const contador = document.getElementById('contadorRefugios');
+
+        contador.textContent = `(${refugios.length})`;
+
+        if (refugios.length === 0) {
+            cont.innerHTML = `
+                <div class="card">
+                    <h3>📭 No hay refugios</h3>
+                    <p>No se encontraron refugios con los criterios seleccionados.</p>
+                    <button class="btn-seguir" onclick="mostrarFormulario('formRefugio')">
+                        🏠 Crear primer refugio
+                    </button>
+                </div>
+            `;
+            return;
+        }
+
+        cont.innerHTML = '';
 
         refugios.forEach(refugio => {
-            const card = document.createElement("div");
-            card.classList.add("refugio", "card");
+            const mascotasActuales = refugio.mascotas ? refugio.mascotas.length : 0;
+            const capacidadClase = mascotasActuales >= refugio.capacidad ? 'capacity-full' : 'capacity-available';
+            const capacidadTexto = mascotasActuales >= refugio.capacidad ? 'Lleno' : `${refugio.capacidad - mascotasActuales} disponibles`;
+
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            // Crear lista de mascotas
+            let mascotasHTML = '';
+            if (refugio.mascotas && refugio.mascotas.length > 0) {
+                mascotasHTML = `
+                    <div class="mascota-list">
+                        <p><strong>Mascotas (${refugio.mascotas.length}):</strong></p>
+                        <ul>
+                `;
+
+                refugio.mascotas.forEach(mascota => {
+                    const estadoClase = mascota.adoptado ? 'estado-adoptada' : 'estado-disponible';
+                    const estadoTexto = mascota.adoptado ? '❤️ Adoptada' : '🟢 Disponible';
+                    const imagenHTML = mascota.imagenUrl ?
+                        `<img src="${mascota.imagenUrl}" alt="${mascota.nombre}" class="mascota-imagen" onerror="this.style.display='none'">` : '';
+
+                    mascotasHTML += `
+                        <li>
+                            <strong>${mascota.nombre}</strong>
+                            (${mascota.raza || 'Sin raza'})<br>
+                            📏 ${mascota.size || 'N/A'} | 🎂 ${mascota.edad || '?'} años |
+                            <span class="${estadoClase}">${estadoTexto}</span>
+                            ${imagenHTML}
+                        </li>
+                    `;
+                });
+
+                mascotasHTML += '</ul></div>';
+            } else {
+                mascotasHTML = `
+                    <div class="mascota-list">
+                        <p>📭 No hay mascotas registradas en este refugio.</p>
+                    </div>
+                `;
+            }
+
+            // Emoji según tipo
+            const tipoEmoji = refugio.tipo === 'gatos' ? '🐱' : '🐶';
 
             card.innerHTML = `
-                <h3>${refugio.nombre}</h3>
-                <p><strong>Tipo:</strong> ${refugio.tipo}</p>
-                <p><strong>Dirección:</strong> ${refugio.direccion}</p>
-                <p><strong>Capacidad:</strong> ${refugio.capacidad}</p>
-                <p><strong>Mascotas:</strong> ${refugio.mascotas ? refugio.mascotas.length : 0}</p>
+                <h3>${tipoEmoji} ${refugio.nombre}</h3>
+                <p><strong>📍 Dirección:</strong> ${refugio.direccion}</p>
+                <p><strong>🎯 Tipo:</strong> ${refugio.tipo === 'gatos' ? 'Gatos' : 'Perros'}</p>
+                <p>
+                    <strong>📊 Capacidad:</strong>
+                    <span class="refugio-capacity ${capacidadClase}">
+                        ${mascotasActuales}/${refugio.capacidad} (${capacidadTexto})
+                    </span>
+                </p>
+                <p><strong>👥 Seguidores:</strong> ${refugio.seguidores ? refugio.seguidores.length : 0}</p>
+
+                ${mascotasHTML}
+
+                <div class="refugio-actions">
+                    <button class="btn-seguir" onclick="seguirRefugio('${refugio.nombre}', this)">
+                        👥 Seguir Refugio
+                    </button>
+                    <button class="btn-seguir" style="background:#4CAF50;"
+                            onclick="mostrarFormulario('formMascota'); document.getElementById('m_refugio').value='${refugio.nombre}';">
+                        ➕ Agregar Mascota
+                    </button>
+                </div>
             `;
 
             cont.appendChild(card);
         });
     }
 
-    document.addEventListener("DOMContentLoaded", cargarRefugios);
+    // Funciones de filtrado
+    function filtrarRefugios() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+        if (!searchTerm) {
+            mostrarTodosRefugios();
+            return;
+        }
+
+        const filtrados = todosRefugios.filter(refugio =>
+            refugio.nombre.toLowerCase().includes(searchTerm) ||
+            refugio.direccion.toLowerCase().includes(searchTerm) ||
+            refugio.tipo.toLowerCase().includes(searchTerm)
+        );
+
+        mostrarRefugios(filtrados);
+        document.getElementById('tituloRefugios').textContent = `Resultados para: "${searchTerm}"`;
+    }
+
+    function buscarRefugios() {
+        // Debounce simple
+        clearTimeout(window.buscarTimeout);
+        window.buscarTimeout = setTimeout(filtrarRefugios, 300);
+    }
+
+    function filtrarRefugiosPorTipo(tipo) {
+        const filtrados = todosRefugios.filter(refugio => refugio.tipo === tipo);
+        mostrarRefugios(filtrados);
+        document.getElementById('tituloRefugios').textContent =
+            tipo === 'gatos' ? 'Refugios de Gatos 🐱' : 'Refugios de Perros 🐶';
+    }
+
+    // Funciones adicionales
+    async function seguirRefugio(nombreRefugio, boton) {
+        const nombreUsuario = prompt('Ingresa tu nombre para seguir este refugio:');
+
+        if (nombreUsuario && nombreUsuario.trim() !== '') {
+            try {
+                const resp = await fetch(`/refugios/seguir?refugio=${nombreRefugio}&usuario=${nombreUsuario}`, {
+                    method: 'POST'
+                });
+
+                if (resp.ok) {
+                    alert(`✅ Ahora sigues el refugio "${nombreRefugio}" como ${nombreUsuario}`);
+                    if (boton) {
+                        boton.textContent = '✅ Siguiendo';
+                        boton.disabled = true;
+                        boton.style.background = '#9e9e9e';
+                    }
+                    cargarRefugios();
+                } else {
+                    const error = await resp.text();
+                    alert(`❌ Error: ${error}`);
+                }
+            } catch (error) {
+                alert(`❌ Error de conexión: ${error.message}`);
+            }
+        }
+    }
+
+    async function mostrarMascotasDisponibles() {
+        try {
+            const resp = await fetch('/api/mascotas/disponibles');
+            const mascotas = await resp.json();
+
+            const cont = document.getElementById('contenedorRefugios');
+            const contador = document.getElementById('contadorRefugios');
+
+            contador.textContent = `(${mascotas.length})`;
+            document.getElementById('tituloRefugios').textContent = 'Mascotas Disponibles para Adopción ❤️';
+
+            if (mascotas.length === 0) {
+                cont.innerHTML = `
+                    <div class="card">
+                        <h3>📭 No hay mascotas disponibles</h3>
+                        <p>Todas las mascotas han encontrado hogar. ¡Felicidades!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            cont.innerHTML = '';
+
+            mascotas.forEach(mascota => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                const imagenHTML = mascota.imagenUrl ?
+                    `<img src="${mascota.imagenUrl}" alt="${mascota.nombre}" class="mascota-imagen" style="max-width: 200px;" onerror="this.style.display='none'">` : '';
+
+                card.innerHTML = `
+                    <h3>🐾 ${mascota.nombre}</h3>
+                    ${imagenHTML}
+                    <p><strong>🏷️ Raza:</strong> ${mascota.raza || 'Sin raza especificada'}</p>
+                    <p><strong>📏 Tamaño:</strong> ${mascota.size || 'N/A'}</p>
+                    <p><strong>🎂 Edad:</strong> ${mascota.edad || '?'} años</p>
+                    <p><strong>⚤ Sexo:</strong> ${mascota.sexo === 'macho' ? '♂ Macho' : '♀ Hembra'}</p>
+                    <p><strong>💉 Vacunas:</strong> ${mascota.tarjetaVacunas || 'No especificadas'}</p>
+                    <p><strong>📍 Estado:</strong> <span class="estado-disponible">🟢 Disponible para adopción</span></p>
+
+                    <div class="refugio-actions">
+                        <button class="btn-seguir" onclick="adoptarMascota('${mascota.nombre}')">
+                            ❤️ Adoptar esta mascota
+                        </button>
+                    </div>
+                `;
+
+                cont.appendChild(card);
+            });
+        } catch (error) {
+            console.error('Error cargando mascotas disponibles:', error);
+            cont.innerHTML = `
+                <div class="card">
+                    <h3>⚠️ Error</h3>
+                    <p>No se pudieron cargar las mascotas disponibles: ${error.message}</p>
+                </div>
+            `;
+        }
+    }
+
+    function adoptarMascota(nombreMascota) {
+        alert(`❤️ ¡Gracias por tu interés en adoptar a ${nombreMascota}!\n\nPor favor contacta al refugio para más información sobre el proceso de adopción.`);
+    }
+
+    function actualizarEspecie() {
+        const tipo = document.getElementById('m_tipo').value;
+        const razaInput = document.getElementById('m_raza');
+
+        if (tipo === 'gato') {
+            razaInput.placeholder = 'Ej: Siames, Persa, Maine Coon...';
+        } else if (tipo === 'perro') {
+            razaInput.placeholder = 'Ej: Labrador, Pastor Alemán, Chihuahua...';
+        } else {
+            razaInput.placeholder = 'Raza';
+        }
+    }
 </script>
 
 </body>

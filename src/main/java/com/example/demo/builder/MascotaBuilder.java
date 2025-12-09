@@ -1,7 +1,6 @@
 package com.example.demo.builder;
 
 import com.example.demo.model.Mascota;
-import com.example.demo.state.EstadoMascota;
 
 public interface MascotaBuilder {
     void reset();
@@ -10,10 +9,10 @@ public interface MascotaBuilder {
     void setEdad(int edad);
     void setSexo(String sexo);
     void setTarjetaVacunas(String vacunas);
-    void setEstadoInicial(EstadoMascota estado); // Nuevo método
-    void setSize(String mediano);
+    void setEstadoInicial(boolean estado);
+    void setSize(String size);
+    void setImagenUrl(String imagenUrl); // Nuevo método
 
     // Método para obtener el producto final
     Mascota build();
-
 }

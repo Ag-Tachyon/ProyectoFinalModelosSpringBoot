@@ -2,10 +2,12 @@ package com.example.demo.state;
 
 import com.example.demo.model.Mascota;
 
-public interface EstadoMascota {
+import java.io.Serializable;
+
+public interface EstadoMascota extends Serializable {
     void adoptarMascota(Mascota mascota);
 
-    void devolverMascota(Mascota mascota);
+    void DisponibleMascota(Mascota mascota);
 
     String getNombreEstado();
 
