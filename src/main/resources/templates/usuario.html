@@ -2,46 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Usuario</title>
 </head>
 <body>
 
-    <div>
-        <input id="nombreUsuario" type="text" placeholder="Tu nombre">
-        <button id="btnSub">Recibir notificaciones</button>
-        <button id="btnUnsub">Dejar de recibir</button>
+<div>
+    <input id="nombreUsuario" type="text" placeholder="Tu nombre">
+    <button id="btnSub">Recibir notificaciones</button>
+    <button id="btnUnsub">Dejar de recibir</button>
 
-        <p><strong>Observadores actuales:</strong> <span id="cantObs">0</span></p>
-    </div>
+    <p><strong>Observadores actuales:</strong> <span id="cantObs">0</span></p>
+</div>
 
-    <div id="notificaciones"></div>
+<hr>
+<h3>Tus Notificaciones:</h3>
+<div id="notificaciones"></div>
 
-    <script>
-        const nombreInput = document.getElementById("nombreUsuario");
-        const cantObs = document.getElementById("cantObs");
 
-        document.getElementById("btnSub").onclick = async () => {
-            const nombre = nombreInput.value;
+<div>
+    <h3>Proceso de Adopción</h3>
+    <input id="usuarioIdInput" type="text" placeholder="Tu nombre de usuario para adoptar">
 
-            const resp = await fetch(`/notificaciones/suscribirse?nombre=${nombre}`, {
+    <input id="mascotaIdHidden" type="hidden" value="ID_DE_LA_MASCOTA_ACTUAL">
+
+    <button id="btnAdoptar">Adoptar esta Mascota</button>
+
+    <p id="resultadoAdopcion" style="margin-top: 15px; font-weight: bold;"></p>
+</div>
+
+<script>
+    const nombreInput = document.getElementById("nombreUsuario");
+    const cantObs = document.getElementById("cantObs");
+    const notificacionesDiv = document.getElementById("notificaciones");
+    const USUARIO_KEY = "observer_nombre"; // Clave para guardar el nombre
+
+    // --- Funciones de Utilidad ---
+    async function actualizarCantidad() {
+        const resp = await fetch(`/notificaciones/cantidad`);
+        const data = await resp.json();
+        cantObs.textContent = data.cantidad;
+    }
+
+    // Simulación: Cargar notificaciones del servidor (si se usara un endpoint para esto)
+    // Ya que tu UsuarioObserver tiene un getBandeja(), podrías exponerlo.
+    // Por ahora, solo cargaremos la cantidad inicial.
+    actualizarCantidad();
+
+    // Cargar nombre guardado para conveniencia
+    const nombreGuardado = localStorage.getItem(USUARIO_KEY);
+    if (nombreGuardado) {
+        nombreInput.value = nombreGuardado;
+        // Opcional: podrías intentar suscribir automáticamente aquí
+    }
+
+    // Simulación de recepción de notificación (no real-time sin WebSockets)
+    // En tu caso, la notificación se guarda en el backend,
+    // así que el usuario debería recargar o pedir la bandeja.
+    // Para fines de la prueba:
+    // *En una aplicación real:* La notificación enviada por el servidor
+    // activaría un evento en el cliente a través de WebSockets.
+
+    // --- Event Listeners ---
+    document.getElementById("btnSub").onclick = async () => {
+        const nombre = nombreInput.value;
+        if (!nombre) return alert("Por favor, ingresa tu nombre.");
+
+        const resp = await fetch(`/notificaciones/suscribirse?nombre=${nombre}`, {
+            method: "POST"
+        });
+
+        const data = await resp.json();
+        cantObs.textContent = data.cantidad;
+        localStorage.setItem(USUARIO_KEY, nombre);
+        alert(`Suscripción exitosa para ${nombre}`);
+    };
+
+    document.getElementById("btnUnsub").onclick = async () => {
+        const nombre = nombreInput.value;
+        if (!nombre) return alert("Por favor, ingresa tu nombre.");
+
+        const resp = await fetch(`/notificaciones/desuscribirse?nombre=${nombre}`, {
+            method: "POST"
+        });
+
+        const data = await resp.json();
+        cantObs.textContent = data.cantidad;
+        localStorage.removeItem(USUARIO_KEY);
+        alert(`Desuscripción exitosa para ${nombre}`);
+    };
+
+    // --- Agregamos la funcionalidad para ver la bandeja del usuario ---
+    // Debes agregar un endpoint en el controlador para /notificaciones/bandeja?nombre=X
+    // y usar el método `getBandeja()` de `UsuarioObserver`
+    /*
+    document.getElementById("btnVerBandeja").onclick = async () => {
+         const nombre = nombreInput.value;
+         // Lógica para llamar al nuevo endpoint y mostrar la bandeja
+    }
+    */
+
+
+
+    /* ADOPCIÓN */
+    document.getElementById("btnAdoptar").onclick = async () => {
+        // 1. Obtener datos necesarios
+        const usuarioId = document.getElementById("usuarioIdInput").value;
+        const mascotaId = document.getElementById("mascotaIdHidden").value; // Reemplaza esto con el ID real
+        const resultadoAdopcion = document.getElementById("resultadoAdopcion");
+
+        if (!usuarioId || !mascotaId) {
+            resultadoAdopcion.style.color = 'red';
+            resultadoAdopcion.textContent = 'Error: Debes ingresar tu nombre de usuario y la mascota debe tener un ID válido.';
+            return;
+        }
+
+        // 2. Construir la URL del endpoint
+        const url = `/adopciones/adoptar?mascotaId=${encodeURIComponent(mascotaId)}&usuarioId=${encodeURIComponent(usuarioId)}`;
+
+        try {
+            // 3. Enviar la solicitud POST al controlador de Spring Boot
+            const resp = await fetch(url, {
                 method: "POST"
             });
 
-            const data = await resp.json();
-            cantObs.textContent = data.cantidad;
-        };
+            // 4. Procesar la respuesta
+            if (resp.ok) {
+                const mensaje = await resp.text();
+                resultadoAdopcion.style.color = 'green';
+                resultadoAdopcion.textContent = mensaje;
+                // Opcional: Deshabilitar el botón de adopción
+                document.getElementById("btnAdoptar").disabled = true;
+            } else {
+                const errorText = await resp.text();
+                resultadoAdopcion.style.color = 'red';
+                resultadoAdopcion.textContent = `Error en la adopción: ${errorText}`;
+            }
 
-        document.getElementById("btnUnsub").onclick = async () => {
-            const nombre = nombreInput.value;
+        } catch (error) {
+            resultadoAdopcion.style.color = 'red';
+            resultadoAdopcion.textContent = 'Error de conexión al servidor.';
+            console.error('Fetch error:', error);
+        }
+    };
 
-            const resp = await fetch(`/notificaciones/desuscribirse?nombre=${nombre}`, {
-                method: "POST"
-            });
+    // Función para precargar el nombre del usuario si está guardado (opcional)
+    const nombreGuardadoII = localStorage.getItem("observer_nombre");
+    if (nombreGuardado) {
+        document.getElementById("usuarioIdInput").value = nombreGuardadoII;
+    }
 
-            const data = await resp.json();
-            cantObs.textContent = data.cantidad;
-        };
-    </script>
+</script>
 
 </body>
 </html>

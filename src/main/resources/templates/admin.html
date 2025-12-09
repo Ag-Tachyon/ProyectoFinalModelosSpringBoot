@@ -59,7 +59,7 @@
 
         <div class="flex info__descrip">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-home"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.707 2.293l9 9c.63 .63 .184 1.707 -.707 1.707h-1v6a3 3 0 0 1 -3 3h-1v-7a3 3 0 0 0 -2.824 -2.995l-.176 -.005h-2a3 3 0 0 0 -3 3v7h-1a3 3 0 0 1 -3 -3v-6h-1c-.89 0 -1.337 -1.077 -.707 -1.707l9 -9a1 1 0 0 1 1.414 0m.293 11.707a1 1 0 0 1 1 1v7h-4v-7a1 1 0 0 1 .883 -.993l.117 -.007z" /></svg>
-            
+
             <button class="flex header__btn" style="align-items: center; gap: .625em; background-color: var(--powder-blue); color: var(--white);">
                 Gestionar Secciones
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-sort-ascending-shapes"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 15l3 3l3 -3" /><path d="M7 6v12" /><path d="M14 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /><path d="M17 14l-3.5 6h7z" /></svg>
@@ -149,6 +149,10 @@
         <button id="btnEnviar">Enviar notificación</button>
     </div>
 
+    <hr>
+
+    <p><strong>Observadores suscritos actualmente:</strong> <span id="cantObsAdmin">0</span></p>
+
 
     <form id="formRefugio" style="display: none;" class="form-refugio">
         <h3>Registrar Refugio</h3>
@@ -217,12 +221,38 @@
             cont.appendChild(card);
         }
 
+        const cantObsAdmin = document.getElementById("cantObsAdmin");
+
+        // Función para actualizar la cantidad de observadores
+        async function actualizarCantidadAdmin() {
+            try {
+                const resp = await fetch(`/notificaciones/cantidad`);
+                const data = await resp.json();
+                cantObsAdmin.textContent = data.cantidad;
+            } catch (error) {
+                console.error("Error al obtener la cantidad de observadores:", error);
+            }
+        }
+
+        // Cargar la cantidad inicial al cargar la página
+        actualizarCantidadAdmin();
+
+
         document.getElementById("btnEnviar").onclick = async () => {
             const msg = document.getElementById("msg").value;
 
-            await fetch(`/notificaciones/enviar?mensaje=${msg}`, {
+            if (!msg) return alert("El mensaje no puede estar vacío.");
+
+            const resp = await fetch(`/notificaciones/enviar?mensaje=${encodeURIComponent(msg)}`, {
                 method: "POST"
             });
+
+            if (resp.ok) {
+                alert(`Notificación enviada a ${cantObsAdmin.textContent} observadores.`);
+                document.getElementById("msg").value = ""; // Limpiar el campo
+            } else {
+                alert("Ocurrió un error al enviar la notificación.");
+            }
         };
     </script>
 
