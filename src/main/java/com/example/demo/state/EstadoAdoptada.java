@@ -5,12 +5,13 @@ import com.example.demo.model.Mascota;
 public class EstadoAdoptada implements EstadoMascota {
     @Override
     public void adoptarMascota(Mascota mascota) {
-
+        //No aplica
     }
 
     @Override
-    public void devolverMascota(Mascota mascota) {
-        mascota.setEstado(new EstadoDevuelta());
+    public void DisponibleMascota(Mascota mascota) {
+        mascota.setEstado(new EstadoDisponible());
+        mascota.setAdoptado(false);
     }
 
     @Override

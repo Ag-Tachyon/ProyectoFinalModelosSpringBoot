@@ -21,6 +21,7 @@ public class Mascota implements Serializable {
     private String tarjetaVacunas;
     private EstadoMascota estado;
     private String historialEventos;
+    private boolean adoptado;
 
     public Mascota() {
         // Generar un ID único al crear la Mascota si no se asigna explícitamente
@@ -40,9 +41,9 @@ public class Mascota implements Serializable {
     public void setEdad(int edad) { this.edad = edad; }
     public void setSexo(String sexo) { this.sexo = sexo; }
     public void setSize(String size) { this.size = size; }
+    public void setAdoptado(boolean adoptado) { this.adoptado = adoptado; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
     public void setTarjetaVacunas(String tarjetaVacunas) { this.tarjetaVacunas = tarjetaVacunas; }
-    public void setHistorialEventos(String historialEventos) { this.historialEventos = historialEventos; }
 
     public String getNombre() { return nombre; }
     public String getRaza() { return raza; }
@@ -50,9 +51,10 @@ public class Mascota implements Serializable {
     public String getSize() { return size; }
     public String getImagenUrl() { return imagenUrl; }
     public String getSexo() { return sexo; }
+    public boolean getAdoptado() { return adoptado; }
     public String getTarjetaVacunas() { return tarjetaVacunas; }
     public EstadoMascota getEstado() { return estado; }
-    public String getHistorialEventos() { return historialEventos; }
+
 
     // --- Métodos del Patrón State (iguales) ---
 
@@ -63,10 +65,6 @@ public class Mascota implements Serializable {
     public void adoptarMascota(Mascota mascota) {
         // Llama al método del estado actual, pasándose a sí misma (el contexto)
         this.estado.adoptarMascota(this);
-    }
-
-    public void devolverMascota() {
-        this.estado.devolverMascota(this);
     }
 
     public String mostrarInfo() {

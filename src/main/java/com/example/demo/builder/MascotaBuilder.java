@@ -10,10 +10,10 @@ public interface MascotaBuilder {
     void setEdad(int edad);
     void setSexo(String sexo);
     void setTarjetaVacunas(String vacunas);
-    void setEstadoInicial(EstadoMascota estado); // Nuevo método
+    void setEstadoInicial(boolean estado);
     void setSize(String mediano);
 
-    // Método para obtener el producto final
+    // Metodo para obtener el producto final
     Mascota build();
 
 }

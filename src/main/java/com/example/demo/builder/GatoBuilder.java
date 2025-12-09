@@ -1,9 +1,11 @@
 package com.example.demo.builder;
 
 import com.example.demo.model.Mascota;
-import com.example.demo.state.EstadoMascota;
+import com.example.demo.state.EstadoAdoptada;
+import com.example.demo.state.EstadoDisponible;
 
 public class GatoBuilder implements MascotaBuilder {
+
     private Mascota mascota;
 
     public GatoBuilder() {
@@ -12,7 +14,6 @@ public class GatoBuilder implements MascotaBuilder {
 
     @Override
     public void reset() {
-        // Inicializa un nuevo objeto Mascota
         this.mascota = new Mascota();
     }
 
@@ -34,8 +35,15 @@ public class GatoBuilder implements MascotaBuilder {
     }
 
     @Override
-    public void setEstadoInicial(EstadoMascota estado) {
-        mascota.setEstado(estado);
+    public void setEstadoInicial(boolean estado) {
+
+        mascota.setAdoptado(estado);
+
+        if (estado) {
+            mascota.setEstado(new EstadoAdoptada());
+        } else {
+            mascota.setEstado(new EstadoDisponible());
+        }
     }
 
     @Override
@@ -45,8 +53,6 @@ public class GatoBuilder implements MascotaBuilder {
 
     @Override
     public Mascota build() {
-        // Lógica de Validación y/o Inicialización por Defecto
-
         Mascota productoFinal = this.mascota;
         this.reset();
         return productoFinal;

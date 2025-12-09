@@ -5,7 +5,7 @@ import com.example.demo.model.Mascota;
 public interface EstadoMascota {
     void adoptarMascota(Mascota mascota);
 
-    void devolverMascota(Mascota mascota);
+    void DisponibleMascota(Mascota mascota);
 
     String getNombreEstado();
 
