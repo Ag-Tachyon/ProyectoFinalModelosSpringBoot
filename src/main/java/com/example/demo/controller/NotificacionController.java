@@ -44,7 +44,6 @@ public class NotificacionController {
 
     @PostMapping("/enviar")
     public Map<String, Object> enviarMensaje(@RequestParam String mensaje) {
-
         ObserverManager.getInstance().notifyObservers(mensaje);
 
         Map<String, Object> resp = new HashMap<>();
@@ -53,4 +52,5 @@ public class NotificacionController {
         return resp;
     }
 }
+
 

@@ -5,7 +5,7 @@ import com.example.demo.service.NotificacionesService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/notificaciones")
+@RequestMapping("/notificaciones2")
 public class NotificacionesController {
 
     private final NotificacionesService servicio;
@@ -16,13 +16,13 @@ public class NotificacionesController {
 
     @PostMapping("/suscribir")
     public String suscribir(@RequestBody Usuario usuario) {
-        servicio.agregarObservador(usuario);
+        servicio.addObserver(usuario);
         return "Usuario suscrito";
     }
 
     @PostMapping("/desuscribir")
     public String desuscribir(@RequestBody Usuario usuario) {
-        servicio.eliminarObservador(usuario);
+        servicio.removeObserver(usuario);
         return "Usuario desuscrito";
     }
 
@@ -33,7 +33,7 @@ public class NotificacionesController {
 
     @PostMapping("/enviar")
     public String enviarNotificacion(@RequestParam String mensaje) {
-        servicio.notificar(mensaje);
+        servicio.notifyObservers(mensaje);
         return "Notificaciones enviadas";
     }
 }
