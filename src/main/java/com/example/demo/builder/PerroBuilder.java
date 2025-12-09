@@ -1,10 +1,16 @@
 package com.example.demo.builder;
 
 import com.example.demo.model.Mascota;
-import com.example.demo.state.EstadoMascota;
+import com.example.demo.state.EstadoAdoptada;
+import com.example.demo.state.EstadoDisponible;
 
 public class PerroBuilder implements MascotaBuilder {
+
     private Mascota mascota;
+
+    public PerroBuilder() {
+        this.reset();
+    }
 
     @Override
     public void reset() {
@@ -32,18 +38,29 @@ public class PerroBuilder implements MascotaBuilder {
     }
 
     @Override
+    public void setSize(String size) {
+        mascota.setSize(size);
+    }
+
+    @Override
     public void setTarjetaVacunas(String vacunas) {
         mascota.setTarjetaVacunas(vacunas);
     }
 
     @Override
-    public void setEstadoInicial(EstadoMascota estado) {
-        mascota.setEstado(estado);
+    public void setEstadoInicial(boolean estado) {
+        mascota.setAdoptado(estado);
+
+        if (estado) {
+            mascota.setEstado(new EstadoAdoptada());
+        } else {
+            mascota.setEstado(new EstadoDisponible());
+        }
     }
 
     @Override
-    public void setSize(String mediano) {
-        mascota.setSize(mediano);
+    public void setImagenUrl(String imagenUrl) {
+        mascota.setImagenUrl(imagenUrl);
     }
 
     @Override

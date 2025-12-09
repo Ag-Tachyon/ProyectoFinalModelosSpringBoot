@@ -1,21 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.Decorator.Notificacion;
 import com.example.demo.model.Mascota;
 import com.example.demo.model.Refugio;
-import com.example.demo.model.Usuario;
 import com.example.demo.singleton.RefugiosData;
-import com.example.demo.singleton.UsuarioData;
 import org.springframework.stereotype.Service;
-
-import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RefugioService {
-
-
     private RefugiosData refugiosData = RefugiosData.getAdministrador();
     private final List<Refugio> refugios = refugiosData.leerDatos();
 
@@ -38,8 +30,15 @@ public class RefugioService {
     public void agregarMascotaARefugio(String nombreRefugio, Mascota mascota) {
         Refugio r = buscarPorNombre(nombreRefugio);
         if (r != null) {
-            r.getMascotas().add(mascota);
-            refugiosData.guardarDatos(refugios);
+            // Verificar que no exceda la capacidad
+            if (r.getMascotas().size() < r.getCapacidad()) {
+                r.getMascotas().add(mascota);
+                refugiosData.guardarDatos(refugios);
+            } else {
+                throw new IllegalStateException("El refugio ha alcanzado su capacidad máxima");
+            }
+        } else {
+            throw new IllegalArgumentException("Refugio no encontrado: " + nombreRefugio);
         }
     }
 

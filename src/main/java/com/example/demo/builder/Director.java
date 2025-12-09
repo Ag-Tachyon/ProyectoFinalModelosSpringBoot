@@ -1,7 +1,7 @@
 package com.example.demo.builder;
 
-import com.example.demo.state.EstadoMascota; // Asumiendo que has creado el paquete state
-import java.util.List;
+import com.example.demo.model.Mascota;
+import com.example.demo.state.EstadoMascota;
 
 public class Director {
     private MascotaBuilder builder;
@@ -14,25 +14,6 @@ public class Director {
         this.builder = newBuilder;
     }
 
-    public void construirMascotaSimple(String nombre, int edad) {
-        builder.reset();
-        builder.setNombre(nombre);
-        builder.setEdad(edad);
-        builder.setSexo("Desconocido");
-        builder.setSize("Mediano");
-    }
-
-    public void construirMascotaParaAdopcion(String nombre, String raza, int edad, String size, EstadoMascota estadoInicial) {
-        builder.reset();
-        builder.setNombre(nombre);
-        builder.setRaza(raza);
-        builder.setEdad(edad);
-        builder.setSize(size);
-        builder.setSexo("Desconocido");
-        builder.setEstadoInicial(estadoInicial);
-    }
-
-
     public void construirMascotaCompleta(
             String nombre,
             String raza,
@@ -40,7 +21,8 @@ public class Director {
             String sexo,
             String size,
             String vacunas,
-            EstadoMascota estadoInicial) {
+            boolean estadoInicial,
+            String imagenUrl) { // Nuevo parámetro
 
         builder.reset();
         builder.setNombre(nombre);
@@ -50,5 +32,20 @@ public class Director {
         builder.setSize(size);
         builder.setTarjetaVacunas(vacunas);
         builder.setEstadoInicial(estadoInicial);
+        builder.setImagenUrl(imagenUrl); // Nuevo método
+    }
+
+    // Método sobrecargado para compatibilidad
+    public void construirMascotaCompleta(
+            String nombre,
+            String raza,
+            int edad,
+            String sexo,
+            String size,
+            String vacunas,
+            boolean estadoInicial) {
+
+        construirMascotaCompleta(nombre, raza, edad, sexo, size,
+                vacunas, estadoInicial, "");
     }
 }
