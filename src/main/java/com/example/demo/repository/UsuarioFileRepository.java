@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public class UsuarioFileRepository {
 
-    private final String FILE_PATH = "data/usuarios.data";
+    private final String FILE_PATH = "usuarios.data";
     private List<Usuario> usuarios = new ArrayList<>();
 
     public UsuarioFileRepository() {
@@ -34,12 +34,21 @@ public class UsuarioFileRepository {
     }
 
     private void guardarArchivo() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-            oos.writeObject(usuarios);
+        try {
+            File carpeta = new File("data");
+            if (!carpeta.exists()) {
+                carpeta.mkdirs();
+            }
+
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+                oos.writeObject(usuarios);
+            }
+
         } catch (IOException e) {
             throw new RuntimeException("Error guardando usuarios.data", e);
         }
     }
+
 
     public synchronized void save(Usuario usuario) {
         usuarios.add(usuario);

@@ -1,13 +1,13 @@
 package com.example.demo.model;
 
 import com.example.demo.model.Mascota;
-import com.example.demo.observer.IObserver;
+import com.example.demo.observer.Observer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Usuario implements Serializable, IObserver {
+public class Usuario implements Serializable, Observer {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +38,7 @@ public class Usuario implements Serializable, IObserver {
     // IMPLEMENTACIÓN DEL OBSERVER
     // ----------------------------------------------------------------
     @Override
-    public void actualizar(String mensaje) {
+    public void update(String mensaje) {
         notificaciones.add(mensaje); // guarda la notificación
         System.out.println("🔔 Notificación para " + nombreUsuario + ": " + mensaje);
     }
