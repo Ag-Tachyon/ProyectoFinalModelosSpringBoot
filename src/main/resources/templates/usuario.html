@@ -2,46 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Usuario</title>
 </head>
 <body>
 
-    <div>
-        <input id="nombreUsuario" type="text" placeholder="Tu nombre">
-        <button id="btnSub">Recibir notificaciones</button>
-        <button id="btnUnsub">Dejar de recibir</button>
+<div>
+    <input id="nombreUsuario" type="text" placeholder="Tu nombre">
+    <button id="btnSub">Recibir notificaciones</button>
+    <button id="btnUnsub">Dejar de recibir</button>
 
-        <p><strong>Observadores actuales:</strong> <span id="cantObs">0</span></p>
-    </div>
+    <p><strong>Observadores actuales:</strong> <span id="cantObs">0</span></p>
+</div>
 
-    <div id="notificaciones"></div>
+<hr>
+<h3>Tus Notificaciones:</h3>
+<div id="notificaciones"></div>
 
-    <script>
-        const nombreInput = document.getElementById("nombreUsuario");
-        const cantObs = document.getElementById("cantObs");
+<script>
+    const nombreInput = document.getElementById("nombreUsuario");
+    const cantObs = document.getElementById("cantObs");
+    const notificacionesDiv = document.getElementById("notificaciones");
+    const USUARIO_KEY = "observer_nombre"; // Clave para guardar el nombre
 
-        document.getElementById("btnSub").onclick = async () => {
-            const nombre = nombreInput.value;
+    // --- Funciones de Utilidad ---
+    async function actualizarCantidad() {
+        const resp = await fetch(`/notificaciones/cantidad`);
+        const data = await resp.json();
+        cantObs.textContent = data.cantidad;
+    }
 
-            const resp = await fetch(`/notificaciones/suscribirse?nombre=${nombre}`, {
-                method: "POST"
-            });
+    // Simulación: Cargar notificaciones del servidor (si se usara un endpoint para esto)
+    // Ya que tu UsuarioObserver tiene un getBandeja(), podrías exponerlo.
+    // Por ahora, solo cargaremos la cantidad inicial.
+    actualizarCantidad();
 
-            const data = await resp.json();
-            cantObs.textContent = data.cantidad;
-        };
+    // Cargar nombre guardado para conveniencia
+    const nombreGuardado = localStorage.getItem(USUARIO_KEY);
+    if (nombreGuardado) {
+        nombreInput.value = nombreGuardado;
+        // Opcional: podrías intentar suscribir automáticamente aquí
+    }
 
-        document.getElementById("btnUnsub").onclick = async () => {
-            const nombre = nombreInput.value;
+    // Simulación de recepción de notificación (no real-time sin WebSockets)
+    // En tu caso, la notificación se guarda en el backend,
+    // así que el usuario debería recargar o pedir la bandeja.
+    // Para fines de la prueba:
+    // *En una aplicación real:* La notificación enviada por el servidor
+    // activaría un evento en el cliente a través de WebSockets.
 
-            const resp = await fetch(`/notificaciones/desuscribirse?nombre=${nombre}`, {
-                method: "POST"
-            });
+    // --- Event Listeners ---
+    document.getElementById("btnSub").onclick = async () => {
+        const nombre = nombreInput.value;
+        if (!nombre) return alert("Por favor, ingresa tu nombre.");
 
-            const data = await resp.json();
-            cantObs.textContent = data.cantidad;
-        };
-    </script>
+        const resp = await fetch(`/notificaciones/suscribirse?nombre=${nombre}`, {
+            method: "POST"
+        });
+
+        const data = await resp.json();
+        cantObs.textContent = data.cantidad;
+        localStorage.setItem(USUARIO_KEY, nombre);
+        alert(`Suscripción exitosa para ${nombre}`);
+    };
+
+    document.getElementById("btnUnsub").onclick = async () => {
+        const nombre = nombreInput.value;
+        if (!nombre) return alert("Por favor, ingresa tu nombre.");
+
+        const resp = await fetch(`/notificaciones/desuscribirse?nombre=${nombre}`, {
+            method: "POST"
+        });
+
+        const data = await resp.json();
+        cantObs.textContent = data.cantidad;
+        localStorage.removeItem(USUARIO_KEY);
+        alert(`Desuscripción exitosa para ${nombre}`);
+    };
+
+    // --- Agregamos la funcionalidad para ver la bandeja del usuario ---
+    // Debes agregar un endpoint en el controlador para /notificaciones/bandeja?nombre=X
+    // y usar el método `getBandeja()` de `UsuarioObserver`
+    /*
+    document.getElementById("btnVerBandeja").onclick = async () => {
+         const nombre = nombreInput.value;
+         // Lógica para llamar al nuevo endpoint y mostrar la bandeja
+    }
+    */
+
+</script>
 
 </body>
 </html>

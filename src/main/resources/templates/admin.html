@@ -149,6 +149,10 @@
         <button id="btnEnviar">Enviar notificación</button>
     </div>
 
+    <hr>
+
+    <p><strong>Observadores suscritos actualmente:</strong> <span id="cantObsAdmin">0</span></p>
+
 
     <form id="formRefugio" style="display: none;" class="form-refugio">
         <h3>Registrar Refugio</h3>
@@ -217,12 +221,38 @@
             cont.appendChild(card);
         }
 
+        const cantObsAdmin = document.getElementById("cantObsAdmin");
+
+        // Función para actualizar la cantidad de observadores
+        async function actualizarCantidadAdmin() {
+            try {
+                const resp = await fetch(`/notificaciones/cantidad`);
+                const data = await resp.json();
+                cantObsAdmin.textContent = data.cantidad;
+            } catch (error) {
+                console.error("Error al obtener la cantidad de observadores:", error);
+            }
+        }
+
+        // Cargar la cantidad inicial al cargar la página
+        actualizarCantidadAdmin();
+
+
         document.getElementById("btnEnviar").onclick = async () => {
             const msg = document.getElementById("msg").value;
 
-            await fetch(`/notificaciones/enviar?mensaje=${msg}`, {
+            if (!msg) return alert("El mensaje no puede estar vacío.");
+
+            const resp = await fetch(`/notificaciones/enviar?mensaje=${encodeURIComponent(msg)}`, {
                 method: "POST"
             });
+
+            if (resp.ok) {
+                alert(`Notificación enviada a ${cantObsAdmin.textContent} observadores.`);
+                document.getElementById("msg").value = ""; // Limpiar el campo
+            } else {
+                alert("Ocurrió un error al enviar la notificación.");
+            }
         };
     </script>
 
