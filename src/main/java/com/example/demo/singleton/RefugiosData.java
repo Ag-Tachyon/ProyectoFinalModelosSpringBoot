@@ -11,7 +11,7 @@ import java.util.List;
 public class RefugiosData implements DataManager<Refugio> {
 
     private static RefugiosData administrador;
-    private static final String RUTA_REFUGIOS = "refugios_data.data";
+    private static final String RUTA_REFUGIOS = "data/refugios.data";
 
     private RefugiosData() {
         System.out.println("RefugiosData: Instancia Singleton creada.");
@@ -43,6 +43,7 @@ public class RefugiosData implements DataManager<Refugio> {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(RUTA_REFUGIOS))) {
             oos.writeObject(datos);
             System.out.println("💾 RefugiosData: " + datos.size() + " refugios guardadas.");
+
         } catch (IOException e) {
             System.err.println("🔴 Error al guardar refugio: " + e.getMessage());
         }
