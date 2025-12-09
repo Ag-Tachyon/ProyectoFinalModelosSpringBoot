@@ -16,7 +16,7 @@ import java.util.List;
 public class RefugioService {
 
     private final List<Refugio> refugios = new ArrayList<>();
-    private RefugiosData refugiosData;
+    private RefugiosData refugiosData = RefugiosData.getAdministrador();
 
 
     public List<Refugio> obtenerTodos() {

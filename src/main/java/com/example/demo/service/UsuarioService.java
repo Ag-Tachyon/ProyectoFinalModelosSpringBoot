@@ -15,7 +15,7 @@ public class UsuarioService {
 
     private final List<Usuario> usuarios = new ArrayList<>();
     private final Notificacion notificacionCorreo;
-    private UsuarioData usuarioData;
+    private UsuarioData usuarioData = UsuarioData.getAdministrador() ;
 
     @Autowired
     public UsuarioService(NotificacionCorreo notificacionCorreo) {
