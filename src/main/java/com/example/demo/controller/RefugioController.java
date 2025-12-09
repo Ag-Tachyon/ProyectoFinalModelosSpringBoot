@@ -9,27 +9,33 @@ import com.example.demo.service.RefugioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/refugios")
 public class RefugioController {
-
     private final RefugioService refugioService;
 
     public RefugioController(RefugioService refugioService) {
         this.refugioService = refugioService;
     }
 
-    @GetMapping
+    // 🔥 Nuevo endpoint para devolver JSON (para JavaScript)
+    @GetMapping(produces = "application/json")
+    @ResponseBody
+    public List<Refugio> obtenerRefugiosJSON() {
+        return refugioService.obtenerTodos();
+    }
+
+    @GetMapping("/vista")
     public String mostrarRefugios(org.springframework.ui.Model model) {
         model.addAttribute("refugios", refugioService.obtenerTodos());
         return "refugios";
     }
 
-    // 🔥 Endpoint para AJAX (JS)
     @PostMapping("/agregar")
     @ResponseBody
     public Refugio agregarRefugioJSON(@RequestBody RefugioDTO dto) {
-
         FabricaRefugio fabrica;
 
         switch (dto.getTipo()) {
@@ -43,17 +49,13 @@ public class RefugioController {
                 throw new IllegalArgumentException("Tipo no válido: " + dto.getTipo());
         }
 
-        // Crear el refugio usando Abstract Factory
         Refugio refugio = fabrica.crearRefugio(
                 dto.getNombre(),
                 dto.getDireccion(),
                 dto.getCapacidad()
         );
 
-        // Lo guardamos
         refugioService.agregarRefugio(refugio);
-
-        // Devolver JSON al frontend
         return refugio;
     }
 }
