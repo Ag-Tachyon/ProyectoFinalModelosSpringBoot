@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Usuario</title>
+    <title>Usuario - Filtros de Mascotas</title>
     <style>
         .ref-card {
             border: 1px solid #ccc;
@@ -18,12 +18,75 @@
             padding: 10px;
             background: white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .mascota-card:hover {
+            transform: scale(1.02);
         }
         .mascota-img {
             width: 100%;
             height: 150px;
             object-fit: cover;
             border-radius: 8px;
+        }
+        .filtros-container {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        .filtro-group {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+        .filtro-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .filtro-group select, .filtro-group input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            min-width: 150px;
+        }
+        .botones-filtros {
+            margin-top: 10px;
+        }
+        .botones-filtros button {
+            padding: 8px 15px;
+            margin-right: 10px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #btnAplicarFiltros {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #btnLimpiarFiltros {
+            background-color: #f44336;
+            color: white;
+        }
+        .contador-mascotas {
+            background: #e3f2fd;
+            padding: 8px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .mascota-filtrada {
+            border: 2px solid #4CAF50;
+            animation: highlight 0.5s;
+        }
+        @keyframes highlight {
+            0% { background-color: #ffffcc; }
+            100% { background-color: white; }
         }
     </style>
 </head>
@@ -34,11 +97,38 @@
     <input id="nombreUsuario" type="text" placeholder="Tu nombre">
     <button id="btnSub">Recibir notificaciones</button>
     <button id="btnUnsub">Dejar de recibir</button>
-
     <p><strong>Observadores actuales:</strong> <span id="cantObs">0</span></p>
 </div>
 
 <hr>
+
+<!-- SECCIÓN DE FILTROS (SOLO TAMAÑO Y EDAD) -->
+<div class="filtros-container">
+    <h2>🔍 Filtros de Mascotas (Strategy + Iterator)</h2>
+
+    <div class="filtro-group">
+        <label for="filtroSize">Tamaño:</label>
+        <select id="filtroSize">
+            <option value="">Todos los tamaños</option>
+            <option value="pequeño">Pequeño</option>
+            <option value="mediano">Mediano</option>
+            <option value="grande">Grande</option>
+        </select>
+    </div>
+
+    <div class="filtro-group">
+        <label for="filtroEdadMinima">Edad mínima (años):</label>
+        <input type="number" id="filtroEdadMinima" min="0" max="30" placeholder="0" value="0">
+    </div>
+
+    <div class="botones-filtros">
+        <button id="btnAplicarFiltros">Aplicar Filtros</button>
+        <button id="btnLimpiarFiltros">Limpiar Filtros</button>
+        <button id="btnVerTodos">Ver Todas</button>
+    </div>
+
+    <div id="estadoFiltros" class="contador-mascotas"></div>
+</div>
 
 <h2>Refugios y Mascotas Disponibles</h2>
 <div id="listaRefugios" style="margin-top:20px;"></div>
@@ -48,25 +138,281 @@
 <h3>Tus Notificaciones:</h3>
 <div id="notificaciones"></div>
 
-
 <div style="margin-top:30px;">
     <h3>Proceso de Adopción</h3>
     <input id="usuarioIdInput" type="text" placeholder="Tu nombre de usuario para adoptar">
-
-    <!-- ID de la mascota seleccionada automáticamente por el botón Adoptar -->
     <input id="mascotaIdHidden" type="hidden">
-
     <button id="btnAdoptar">Adoptar esta Mascota</button>
-
     <p id="resultadoAdopcion" style="margin-top: 15px; font-weight: bold;"></p>
 </div>
 
-
 <script>
-    /* ===============================================
-       ZONA DE SUSCRIPCIÓN / OBSERVER (NO SE EDITA)
-    =============================================== */
+    // ===============================================
+    // VARIABLES GLOBALES
+    // ===============================================
+    let todasLasMascotas = [];
+    let refugiosOriginales = [];
 
+    // ===============================================
+    // FUNCIÓN PARA APLICAR FILTROS (LLAMA AL BACKEND)
+    // ===============================================
+    async function aplicarFiltros() {
+        const size = document.getElementById('filtroSize').value;
+        const edadMinima = document.getElementById('filtroEdadMinima').value;
+
+        console.log("Enviando filtros al backend:", { size, edadMinima });
+
+        try {
+            const response = await fetch('/filtros/aplicar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    size: size,
+                    edadMinima: parseInt(edadMinima) || 0
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+
+            const mascotasFiltradas = await response.json();
+            console.log("Mascotas filtradas recibidas:", mascotasFiltradas.length);
+
+            // Actualizar la vista con las mascotas filtradas
+            actualizarVistaConMascotasFiltradas(mascotasFiltradas);
+
+            // Actualizar contador
+            const estadoDiv = document.getElementById("estadoFiltros");
+            estadoDiv.textContent = `Mostrando ${mascotasFiltradas.length} de ${todasLasMascotas.length} mascotas`;
+
+            // Resaltar filtros activos
+            if (size || edadMinima > 0) {
+                estadoDiv.innerHTML += ` - Filtros: ${size ? 'Tamaño: ' + size : ''}${edadMinima > 0 ? ' Edad ≥ ' + edadMinima + ' años' : ''}`;
+            }
+
+        } catch (error) {
+            console.error('Error aplicando filtros:', error);
+            alert('Error al aplicar filtros: ' + error.message);
+        }
+    }
+
+    // ===============================================
+    // ACTUALIZAR VISTA CON MASCOTAS FILTRADAS
+    // ===============================================
+    function actualizarVistaConMascotasFiltradas(mascotasFiltradas) {
+        const contenedor = document.getElementById("listaRefugios");
+        contenedor.innerHTML = "";
+
+        // Si no hay mascotas
+        if (!mascotasFiltradas || mascotasFiltradas.length === 0) {
+            contenedor.innerHTML = "<p>No se encontraron mascotas con los filtros seleccionados.</p>";
+            return;
+        }
+
+        // Crear un mapa para agrupar mascotas por refugio
+        const mascotasPorRefugio = {};
+
+        // Primero, agrupar mascotas por refugio
+        mascotasFiltradas.forEach(mascota => {
+            // Buscar el refugio de esta mascota
+            let refugioDeMascota = null;
+            for (const refugio of refugiosOriginales) {
+                if (refugio.mascotas && refugio.mascotas.some(m => m.nombre === mascota.nombre && m.raza === mascota.raza)) {
+                    refugioDeMascota = refugio;
+                    break;
+                }
+            }
+
+            if (refugioDeMascota) {
+                const nombreRefugio = refugioDeMascota.nombre;
+                if (!mascotasPorRefugio[nombreRefugio]) {
+                    mascotasPorRefugio[nombreRefugio] = {
+                        refugio: refugioDeMascota,
+                        mascotas: []
+                    };
+                }
+                mascotasPorRefugio[nombreRefugio].mascotas.push(mascota);
+            }
+        });
+
+        // Mostrar refugios con sus mascotas filtradas
+        Object.values(mascotasPorRefugio).forEach(item => {
+            const refugio = item.refugio;
+            const mascotasDelRefugio = item.mascotas;
+
+            const card = document.createElement("div");
+            card.classList.add("ref-card");
+
+            card.innerHTML = `
+                <h3>🏠 Refugio: ${refugio.nombre}</h3>
+                <p><strong>Dirección:</strong> ${refugio.direccion}</p>
+                <p><strong>Capacidad:</strong> ${refugio.capacidad}</p>
+                <p><strong>Mascotas mostradas:</strong> ${mascotasDelRefugio.length}</p>
+                <h4 style="margin-top:15px;">🐾 Mascotas:</h4>
+            `;
+
+            const listaMascotas = document.createElement("div");
+            listaMascotas.style.display = "flex";
+            listaMascotas.style.flexWrap = "wrap";
+            listaMascotas.style.gap = "15px";
+
+            mascotasDelRefugio.forEach(m => {
+                const mCard = document.createElement("div");
+                mCard.classList.add("mascota-card");
+
+                // Agregar clase si hay filtros activos
+                const size = document.getElementById('filtroSize').value;
+                const edadMinima = document.getElementById('filtroEdadMinima').value;
+                if (size || edadMinima > 0) {
+                    mCard.classList.add("mascota-filtrada");
+                }
+
+                mCard.innerHTML = `
+                    <img class="mascota-img"
+                         src="${m.imagenUrl || 'https://via.placeholder.com/200'}"
+                         alt="${m.nombre}">
+
+                    <h4 style="margin:10px 0 5px;">${m.nombre}</h4>
+                    <p><strong>Raza:</strong> ${m.raza}</p>
+                    <p><strong>Edad:</strong> ${m.edad} años</p>
+                    <p><strong>Sexo:</strong> ${m.sexo}</p>
+                    <p><strong>Tamaño:</strong> ${m.size}</p>
+
+                    <button onclick="seleccionarMascota('${m.nombre}', '${m.raza}')"
+                        style="margin-top:10px; width:100%; padding:8px; border:none;
+                        background:#4CAF50; color:white; border-radius:5px; cursor:pointer;">
+                        Adoptar
+                    </button>
+                `;
+
+                listaMascotas.appendChild(mCard);
+            });
+
+            card.appendChild(listaMascotas);
+            contenedor.appendChild(card);
+        });
+    }
+
+    // ===============================================
+    // LIMPIAR FILTROS
+    // ===============================================
+    function limpiarFiltros() {
+        document.getElementById('filtroSize').value = '';
+        document.getElementById('filtroEdadMinima').value = '0';
+
+        // Mostrar todas las mascotas
+        actualizarVistaConMascotasFiltradas(todasLasMascotas);
+
+        const estadoDiv = document.getElementById("estadoFiltros");
+        estadoDiv.textContent = `Mostrando todas las ${todasLasMascotas.length} mascotas`;
+    }
+
+    // ===============================================
+    // VER TODAS LAS MASCOTAS
+    // ===============================================
+    async function verTodasMascotas() {
+        // Enviar filtro vacío al backend
+        try {
+            const response = await fetch('/filtros/aplicar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    size: '',
+                    edadMinima: 0
+                })
+            });
+
+            const todasMascotas = await response.json();
+            actualizarVistaConMascotasFiltradas(todasMascotas);
+
+            const estadoDiv = document.getElementById("estadoFiltros");
+            estadoDiv.textContent = `Mostrando todas las ${todasMascotas.length} mascotas`;
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // ===============================================
+    // CARGA INICIAL DE DATOS
+    // ===============================================
+    async function cargarRefugiosConMascotas() {
+        const contenedor = document.getElementById("listaRefugios");
+
+        try {
+            const resp = await fetch("/refugios");
+            const refugios = await resp.json();
+            refugiosOriginales = refugios;
+
+            if (!refugios || refugios.length === 0) {
+                contenedor.innerHTML = "<p>No hay refugios registrados.</p>";
+                return;
+            }
+
+            // Recolectar todas las mascotas
+            todasLasMascotas = [];
+            refugios.forEach(ref => {
+                if (ref.mascotas && ref.mascotas.length > 0) {
+                    ref.mascotas.forEach(mascota => {
+                        todasLasMascotas.push(mascota);
+                    });
+                }
+            });
+
+            // Mostrar todas las mascotas inicialmente
+            actualizarVistaConMascotasFiltradas(todasLasMascotas);
+
+            // Actualizar estado
+            const estadoDiv = document.getElementById("estadoFiltros");
+            estadoDiv.textContent = `Mostrando todas las ${todasLasMascotas.length} mascotas`;
+
+        } catch (error) {
+            contenedor.innerHTML = "<p>Error cargando refugios.</p>";
+            console.error(error);
+        }
+    }
+
+    // ===============================================
+    // FUNCIONES AUXILIARES
+    // ===============================================
+    function seleccionarMascota(nombre, raza) {
+        // Buscar la mascota exacta
+        const mascota = todasLasMascotas.find(m =>
+            m.nombre === nombre && m.raza === raza
+        );
+
+        if (mascota) {
+            // Usar nombre como ID temporal
+            document.getElementById("mascotaIdHidden").value = mascota.nombre;
+            alert(`Has seleccionado a ${mascota.nombre} para adopción.`);
+        }
+    }
+
+    // ===============================================
+    // EVENT LISTENERS
+    // ===============================================
+    document.addEventListener("DOMContentLoaded", () => {
+        cargarRefugiosConMascotas();
+
+        // Event listeners para filtros
+        document.getElementById('btnAplicarFiltros').addEventListener('click', aplicarFiltros);
+        document.getElementById('btnLimpiarFiltros').addEventListener('click', limpiarFiltros);
+        document.getElementById('btnVerTodos').addEventListener('click', verTodasMascotas);
+
+        // Aplicar filtros al presionar Enter en edad
+        document.getElementById('filtroEdadMinima').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') aplicarFiltros();
+        });
+    });
+
+    // ===============================================
+    // ZONA DE SUSCRIPCIÓN / OBSERVER (NO MODIFICADA)
+    // ===============================================
     const nombreInput = document.getElementById("nombreUsuario");
     const cantObs = document.getElementById("cantObs");
     const notificacionesDiv = document.getElementById("notificaciones");
@@ -113,109 +459,23 @@
         alert(`Desuscripción exitosa para ${nombre}`);
     };
 
-
-    /* =================================================
-       LISTAR REFUGIOS Y SUS MASCOTAS (NUEVA SECCIÓN)
-    ================================================= */
-
-    async function cargarRefugiosConMascotas() {
-        const contenedor = document.getElementById("listaRefugios");
-
-        try {
-            const resp = await fetch("/refugios");
-            const refugios = await resp.json();
-
-            if (!refugios || refugios.length === 0) {
-                contenedor.innerHTML = "<p>No hay refugios registrados.</p>";
-                return;
-            }
-
-            contenedor.innerHTML = "";
-
-            refugios.forEach(ref => {
-
-                const card = document.createElement("div");
-                card.classList.add("ref-card");
-
-                card.innerHTML = `
-                    <h3>🏠 Refugio: ${ref.nombre}</h3>
-                    <p><strong>Dirección:</strong> ${ref.direccion}</p>
-                    <p><strong>Capacidad:</strong> ${ref.capacidad}</p>
-                    <p><strong>Mascotas:</strong> ${ref.mascotas ? ref.mascotas.length : 0}</p>
-                    <h4 style="margin-top:15px;">🐾 Mascotas:</h4>
-                `;
-
-                const listaMascotas = document.createElement("div");
-                listaMascotas.style.display = "flex";
-                listaMascotas.style.flexWrap = "wrap";
-                listaMascotas.style.gap = "15px";
-
-                if (ref.mascotas && ref.mascotas.length > 0) {
-                    ref.mascotas.forEach(m => {
-                        const mCard = document.createElement("div");
-                        mCard.classList.add("mascota-card");
-
-                        mCard.innerHTML = `
-                            <img class="mascota-img"
-                                 src="${m.imagenUrl || 'https://via.placeholder.com/200'}">
-
-                            <h4 style="margin:10px 0 5px;">${m.nombre}</h4>
-                            <p><strong>Raza:</strong> ${m.raza}</p>
-                            <p><strong>Edad:</strong> ${m.edad}</p>
-                            <p><strong>Sexo:</strong> ${m.sexo}</p>
-                            <p><strong>Tamaño:</strong> ${m.size}</p>
-
-                            <button onclick="seleccionarMascota('${m.id}')"
-                                style="margin-top:10px; width:100%; padding:6px; border:none;
-                                background:#4CAF50; color:white; border-radius:5px; cursor:pointer;">
-                                Adoptar
-                            </button>
-                        `;
-
-                        listaMascotas.appendChild(mCard);
-                    });
-                } else {
-                    listaMascotas.innerHTML = "<p>No hay mascotas en este refugio.</p>";
-                }
-
-                card.appendChild(listaMascotas);
-                contenedor.appendChild(card);
-            });
-
-        } catch (error) {
-            contenedor.innerHTML = "<p>Error cargando refugios.</p>";
-            console.error(error);
-        }
-    }
-
-    /* Cuando el usuario escoge una mascota */
-    function seleccionarMascota(id) {
-        document.getElementById("mascotaIdHidden").value = id;
-        alert("Mascota seleccionada.");
-    }
-
-    /* Cargar al iniciar */
-    document.addEventListener("DOMContentLoaded", () => {
-        cargarRefugiosConMascotas();
-    });
-
-
-    /* ==================================================
-       PROCESO DE ADOPCIÓN (YA LO TENÍAS)
-    ================================================== */
-
+    // ===============================================
+    // PROCESO DE ADOPCIÓN
+    // ===============================================
     document.getElementById("btnAdoptar").onclick = async () => {
         const usuarioId = document.getElementById("usuarioIdInput").value;
-        const mascotaId = document.getElementById("mascotaIdHidden").value;
+        const mascotaNombre = document.getElementById("mascotaIdHidden").value;
         const resultado = document.getElementById("resultadoAdopcion");
 
-        if (!usuarioId || !mascotaId) {
+        if (!usuarioId || !mascotaNombre) {
             resultado.style.color = "red";
             resultado.textContent = "Debes ingresar usuario y seleccionar mascota.";
             return;
         }
 
-        const url = `/adopciones/adoptar?mascotaId=${encodeURIComponent(mascotaId)}&usuarioId=${encodeURIComponent(usuarioId)}`;
+        // Aquí deberías usar el ID real de la mascota
+        // Por ahora usamos el nombre como referencia
+        const url = `/adopciones/adoptar?mascotaNombre=${encodeURIComponent(mascotaNombre)}&usuarioId=${encodeURIComponent(usuarioId)}`;
 
         try {
             const resp = await fetch(url, { method: "POST" });
@@ -225,6 +485,9 @@
                 resultado.style.color = "green";
                 resultado.textContent = msg;
                 document.getElementById("btnAdoptar").disabled = true;
+
+                // Recargar después de adoptar
+                cargarRefugiosConMascotas();
             } else {
                 const err = await resp.text();
                 resultado.style.color = "red";
