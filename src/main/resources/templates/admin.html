@@ -155,6 +155,11 @@
 
         <input type="number" id="capacidad" placeholder="Capacidad" required>
 
+        <select id="tipo" required>
+            <option value="gatos">Refugio de Gatos 🐱</option>
+            <option value="perros">Refugio de Perros 🐶</option>
+        </select>
+
         <button type="submit">Guardar</button>
     </form>
 
@@ -164,17 +169,14 @@
         const form = document.getElementById("formRefugio");
 
         btnMostrar.addEventListener("click", () => {
-            if (form.style.display === "none") {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
+            form.style.display = form.style.display === "none" ? "block" : "none";
         });
 
         document.getElementById("formRefugio").addEventListener("submit", async (e) => {
             e.preventDefault();
 
             const refugio = {
+                tipo: document.getElementById("tipo").value,
                 nombre: document.getElementById("nombre").value,
                 direccion: document.getElementById("direccion").value,
                 capacidad: parseInt(document.getElementById("capacidad").value)
@@ -188,10 +190,10 @@
 
             const nuevoRefugio = await response.json();
 
-            // Aquí agregas la tarjeta en pantalla
             agregarTarjeta(nuevoRefugio);
+            form.reset();
+            form.style.display = "none";
         });
-
 
         function agregarTarjeta(refugio) {
             const cont = document.getElementById("contenedorRefugios");
@@ -200,14 +202,16 @@
             card.classList.add("refugio");
 
             card.innerHTML = `
-        <h3>${refugio.nombre}</h3>
-        <p><strong>Dirección:</strong> ${refugio.direccion}</p>
-        <p><strong>Capacidad:</strong> ${refugio.capacidad}</p>
-    `;
+            <div class="card">
+                <h3>${refugio.nombre}</h3>
+                <p><strong>Tipo:</strong> ${refugio.tipo === "gatos" ? "Gatos 🐱" : "Perros 🐶"}</p>
+                <p><strong>Dirección:</strong> ${refugio.direccion}</p>
+                <p><strong>Capacidad:</strong> ${refugio.capacidad}</p>
+            </div>
+        `;
 
             cont.appendChild(card);
         }
-
     </script>
 
 </body>
