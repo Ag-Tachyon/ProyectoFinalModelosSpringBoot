@@ -31,8 +31,22 @@ public class Usuario implements Serializable, Observer {
         this.mascotas = (mascotas != null) ? mascotas : new ArrayList<>();
     }
 
-    // Constructor vacío → necesario para Spring
+    // Constructor vacío
     public Usuario() {}
+
+    // ----------------------------------------------------------------
+    // 🐕 LÓGICA DE NEGOCIO (Adopción)
+    // ----------------------------------------------------------------
+
+    /**
+     * Agrega una mascota a la lista de mascotas adoptadas por el usuario.
+     */
+    public void agregarMascotaAdoptada(Mascota mascota) {
+        if (this.mascotas == null) {
+            this.mascotas = new ArrayList<>();
+        }
+        this.mascotas.add(mascota);
+    }
 
     // ----------------------------------------------------------------
     // IMPLEMENTACIÓN DEL OBSERVER

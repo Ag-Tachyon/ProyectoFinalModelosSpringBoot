@@ -18,6 +18,18 @@
 <h3>Tus Notificaciones:</h3>
 <div id="notificaciones"></div>
 
+
+<div>
+    <h3>Proceso de Adopción</h3>
+    <input id="usuarioIdInput" type="text" placeholder="Tu nombre de usuario para adoptar">
+
+    <input id="mascotaIdHidden" type="hidden" value="ID_DE_LA_MASCOTA_ACTUAL">
+
+    <button id="btnAdoptar">Adoptar esta Mascota</button>
+
+    <p id="resultadoAdopcion" style="margin-top: 15px; font-weight: bold;"></p>
+</div>
+
 <script>
     const nombreInput = document.getElementById("nombreUsuario");
     const cantObs = document.getElementById("cantObs");
@@ -88,6 +100,56 @@
          // Lógica para llamar al nuevo endpoint y mostrar la bandeja
     }
     */
+
+
+
+    /* ADOPCIÓN */
+    document.getElementById("btnAdoptar").onclick = async () => {
+        // 1. Obtener datos necesarios
+        const usuarioId = document.getElementById("usuarioIdInput").value;
+        const mascotaId = document.getElementById("mascotaIdHidden").value; // Reemplaza esto con el ID real
+        const resultadoAdopcion = document.getElementById("resultadoAdopcion");
+
+        if (!usuarioId || !mascotaId) {
+            resultadoAdopcion.style.color = 'red';
+            resultadoAdopcion.textContent = 'Error: Debes ingresar tu nombre de usuario y la mascota debe tener un ID válido.';
+            return;
+        }
+
+        // 2. Construir la URL del endpoint
+        const url = `/adopciones/adoptar?mascotaId=${encodeURIComponent(mascotaId)}&usuarioId=${encodeURIComponent(usuarioId)}`;
+
+        try {
+            // 3. Enviar la solicitud POST al controlador de Spring Boot
+            const resp = await fetch(url, {
+                method: "POST"
+            });
+
+            // 4. Procesar la respuesta
+            if (resp.ok) {
+                const mensaje = await resp.text();
+                resultadoAdopcion.style.color = 'green';
+                resultadoAdopcion.textContent = mensaje;
+                // Opcional: Deshabilitar el botón de adopción
+                document.getElementById("btnAdoptar").disabled = true;
+            } else {
+                const errorText = await resp.text();
+                resultadoAdopcion.style.color = 'red';
+                resultadoAdopcion.textContent = `Error en la adopción: ${errorText}`;
+            }
+
+        } catch (error) {
+            resultadoAdopcion.style.color = 'red';
+            resultadoAdopcion.textContent = 'Error de conexión al servidor.';
+            console.error('Fetch error:', error);
+        }
+    };
+
+    // Función para precargar el nombre del usuario si está guardado (opcional)
+    const nombreGuardado = localStorage.getItem("observer_nombre");
+    if (nombreGuardado) {
+        document.getElementById("usuarioIdInput").value = nombreGuardado;
+    }
 
 </script>
 
