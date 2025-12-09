@@ -1,9 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Usuario</title>
+    <style>
+        .ref-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .mascota-card {
+            width: 220px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .mascota-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    </style>
 </head>
+
 <body>
 
 <div>
@@ -15,54 +39,52 @@
 </div>
 
 <hr>
+
+<h2>Refugios y Mascotas Disponibles</h2>
+<div id="listaRefugios" style="margin-top:20px;"></div>
+
+<hr>
+
 <h3>Tus Notificaciones:</h3>
 <div id="notificaciones"></div>
 
 
-<div>
+<div style="margin-top:30px;">
     <h3>Proceso de Adopción</h3>
     <input id="usuarioIdInput" type="text" placeholder="Tu nombre de usuario para adoptar">
 
-    <input id="mascotaIdHidden" type="hidden" value="ID_DE_LA_MASCOTA_ACTUAL">
+    <!-- ID de la mascota seleccionada automáticamente por el botón Adoptar -->
+    <input id="mascotaIdHidden" type="hidden">
 
     <button id="btnAdoptar">Adoptar esta Mascota</button>
 
     <p id="resultadoAdopcion" style="margin-top: 15px; font-weight: bold;"></p>
 </div>
 
+
 <script>
+    /* ===============================================
+       ZONA DE SUSCRIPCIÓN / OBSERVER (NO SE EDITA)
+    =============================================== */
+
     const nombreInput = document.getElementById("nombreUsuario");
     const cantObs = document.getElementById("cantObs");
     const notificacionesDiv = document.getElementById("notificaciones");
-    const USUARIO_KEY = "observer_nombre"; // Clave para guardar el nombre
+    const USUARIO_KEY = "observer_nombre";
 
-    // --- Funciones de Utilidad ---
     async function actualizarCantidad() {
         const resp = await fetch(`/notificaciones/cantidad`);
         const data = await resp.json();
         cantObs.textContent = data.cantidad;
     }
 
-    // Simulación: Cargar notificaciones del servidor (si se usara un endpoint para esto)
-    // Ya que tu UsuarioObserver tiene un getBandeja(), podrías exponerlo.
-    // Por ahora, solo cargaremos la cantidad inicial.
     actualizarCantidad();
 
-    // Cargar nombre guardado para conveniencia
     const nombreGuardado = localStorage.getItem(USUARIO_KEY);
     if (nombreGuardado) {
         nombreInput.value = nombreGuardado;
-        // Opcional: podrías intentar suscribir automáticamente aquí
     }
 
-    // Simulación de recepción de notificación (no real-time sin WebSockets)
-    // En tu caso, la notificación se guarda en el backend,
-    // así que el usuario debería recargar o pedir la bandeja.
-    // Para fines de la prueba:
-    // *En una aplicación real:* La notificación enviada por el servidor
-    // activaría un evento en el cliente a través de WebSockets.
-
-    // --- Event Listeners ---
     document.getElementById("btnSub").onclick = async () => {
         const nombre = nombreInput.value;
         if (!nombre) return alert("Por favor, ingresa tu nombre.");
@@ -91,65 +113,129 @@
         alert(`Desuscripción exitosa para ${nombre}`);
     };
 
-    // --- Agregamos la funcionalidad para ver la bandeja del usuario ---
-    // Debes agregar un endpoint en el controlador para /notificaciones/bandeja?nombre=X
-    // y usar el método `getBandeja()` de `UsuarioObserver`
-    /*
-    document.getElementById("btnVerBandeja").onclick = async () => {
-         const nombre = nombreInput.value;
-         // Lógica para llamar al nuevo endpoint y mostrar la bandeja
+
+    /* =================================================
+       LISTAR REFUGIOS Y SUS MASCOTAS (NUEVA SECCIÓN)
+    ================================================= */
+
+    async function cargarRefugiosConMascotas() {
+        const contenedor = document.getElementById("listaRefugios");
+
+        try {
+            const resp = await fetch("/refugios");
+            const refugios = await resp.json();
+
+            if (!refugios || refugios.length === 0) {
+                contenedor.innerHTML = "<p>No hay refugios registrados.</p>";
+                return;
+            }
+
+            contenedor.innerHTML = "";
+
+            refugios.forEach(ref => {
+
+                const card = document.createElement("div");
+                card.classList.add("ref-card");
+
+                card.innerHTML = `
+                    <h3>🏠 Refugio: ${ref.nombre}</h3>
+                    <p><strong>Dirección:</strong> ${ref.direccion}</p>
+                    <p><strong>Capacidad:</strong> ${ref.capacidad}</p>
+                    <p><strong>Mascotas:</strong> ${ref.mascotas ? ref.mascotas.length : 0}</p>
+                    <h4 style="margin-top:15px;">🐾 Mascotas:</h4>
+                `;
+
+                const listaMascotas = document.createElement("div");
+                listaMascotas.style.display = "flex";
+                listaMascotas.style.flexWrap = "wrap";
+                listaMascotas.style.gap = "15px";
+
+                if (ref.mascotas && ref.mascotas.length > 0) {
+                    ref.mascotas.forEach(m => {
+                        const mCard = document.createElement("div");
+                        mCard.classList.add("mascota-card");
+
+                        mCard.innerHTML = `
+                            <img class="mascota-img"
+                                 src="${m.imagenUrl || 'https://via.placeholder.com/200'}">
+
+                            <h4 style="margin:10px 0 5px;">${m.nombre}</h4>
+                            <p><strong>Raza:</strong> ${m.raza}</p>
+                            <p><strong>Edad:</strong> ${m.edad}</p>
+                            <p><strong>Sexo:</strong> ${m.sexo}</p>
+                            <p><strong>Tamaño:</strong> ${m.size}</p>
+
+                            <button onclick="seleccionarMascota('${m.id}')"
+                                style="margin-top:10px; width:100%; padding:6px; border:none;
+                                background:#4CAF50; color:white; border-radius:5px; cursor:pointer;">
+                                Adoptar
+                            </button>
+                        `;
+
+                        listaMascotas.appendChild(mCard);
+                    });
+                } else {
+                    listaMascotas.innerHTML = "<p>No hay mascotas en este refugio.</p>";
+                }
+
+                card.appendChild(listaMascotas);
+                contenedor.appendChild(card);
+            });
+
+        } catch (error) {
+            contenedor.innerHTML = "<p>Error cargando refugios.</p>";
+            console.error(error);
+        }
     }
-    */
+
+    /* Cuando el usuario escoge una mascota */
+    function seleccionarMascota(id) {
+        document.getElementById("mascotaIdHidden").value = id;
+        alert("Mascota seleccionada.");
+    }
+
+    /* Cargar al iniciar */
+    document.addEventListener("DOMContentLoaded", () => {
+        cargarRefugiosConMascotas();
+    });
 
 
+    /* ==================================================
+       PROCESO DE ADOPCIÓN (YA LO TENÍAS)
+    ================================================== */
 
-    /* ADOPCIÓN */
     document.getElementById("btnAdoptar").onclick = async () => {
-        // 1. Obtener datos necesarios
         const usuarioId = document.getElementById("usuarioIdInput").value;
-        const mascotaId = document.getElementById("mascotaIdHidden").value; // Reemplaza esto con el ID real
-        const resultadoAdopcion = document.getElementById("resultadoAdopcion");
+        const mascotaId = document.getElementById("mascotaIdHidden").value;
+        const resultado = document.getElementById("resultadoAdopcion");
 
         if (!usuarioId || !mascotaId) {
-            resultadoAdopcion.style.color = 'red';
-            resultadoAdopcion.textContent = 'Error: Debes ingresar tu nombre de usuario y la mascota debe tener un ID válido.';
+            resultado.style.color = "red";
+            resultado.textContent = "Debes ingresar usuario y seleccionar mascota.";
             return;
         }
 
-        // 2. Construir la URL del endpoint
         const url = `/adopciones/adoptar?mascotaId=${encodeURIComponent(mascotaId)}&usuarioId=${encodeURIComponent(usuarioId)}`;
 
         try {
-            // 3. Enviar la solicitud POST al controlador de Spring Boot
-            const resp = await fetch(url, {
-                method: "POST"
-            });
+            const resp = await fetch(url, { method: "POST" });
 
-            // 4. Procesar la respuesta
             if (resp.ok) {
-                const mensaje = await resp.text();
-                resultadoAdopcion.style.color = 'green';
-                resultadoAdopcion.textContent = mensaje;
-                // Opcional: Deshabilitar el botón de adopción
+                const msg = await resp.text();
+                resultado.style.color = "green";
+                resultado.textContent = msg;
                 document.getElementById("btnAdoptar").disabled = true;
             } else {
-                const errorText = await resp.text();
-                resultadoAdopcion.style.color = 'red';
-                resultadoAdopcion.textContent = `Error en la adopción: ${errorText}`;
+                const err = await resp.text();
+                resultado.style.color = "red";
+                resultado.textContent = err;
             }
 
-        } catch (error) {
-            resultadoAdopcion.style.color = 'red';
-            resultadoAdopcion.textContent = 'Error de conexión al servidor.';
-            console.error('Fetch error:', error);
+        } catch (e) {
+            resultado.style.color = "red";
+            resultado.textContent = "Error de conexión.";
         }
     };
-
-    // Función para precargar el nombre del usuario si está guardado (opcional)
-    const nombreGuardadoII = localStorage.getItem("observer_nombre");
-    if (nombreGuardado) {
-        document.getElementById("usuarioIdInput").value = nombreGuardadoII;
-    }
 
 </script>
 
