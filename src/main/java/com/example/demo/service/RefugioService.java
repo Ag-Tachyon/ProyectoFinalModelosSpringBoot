@@ -27,16 +27,31 @@ public class RefugioService {
                 .orElse(null);
     }
 
+
     public void agregarMascotaARefugio(String nombreRefugio, Mascota mascota) {
         Refugio r = buscarPorNombre(nombreRefugio);
         if (r != null) {
-            // Verificar que no exceda la capacidad
-            if (r.getMascotas().size() < r.getCapacidad()) {
-                r.getMascotas().add(mascota);
-                refugiosData.guardarDatos(refugios);
-            } else {
-                throw new IllegalStateException("El refugio ha alcanzado su capacidad máxima");
+            // Buscar si la mascota ya existe
+            boolean mascotaExiste = false;
+            for (int i = 0; i < r.getMascotas().size(); i++) {
+                Mascota m = r.getMascotas().get(i);
+                if (m.getNombre().equals(mascota.getNombre())) {
+                    // Actualizar mascota existente
+                    r.getMascotas().set(i, mascota);
+                    mascotaExiste = true;
+                    break;
+                }
             }
+
+            if (!mascotaExiste) {
+                if (r.getMascotas().size() < r.getCapacidad()) {
+                    r.getMascotas().add(mascota);
+                } else {
+                    throw new IllegalStateException("El refugio ha alcanzado su capacidad máxima");
+                }
+            }
+
+            refugiosData.guardarDatos(refugios);
         } else {
             throw new IllegalArgumentException("Refugio no encontrado: " + nombreRefugio);
         }

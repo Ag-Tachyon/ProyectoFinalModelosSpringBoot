@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Usuario - Filtros de Mascotas</title>
+    <title>Usuario - Sistema de Adopción</title>
     <style>
         .ref-card {
             border: 1px solid #ccc;
@@ -88,15 +88,114 @@
             0% { background-color: #ffffcc; }
             100% { background-color: white; }
         }
+        /* Estilos para sección de adopción */
+        .adopcion-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+        .adopcion-container h3 {
+            color: #343a40;
+            margin-bottom: 15px;
+        }
+        .adopcion-input-group {
+            margin-bottom: 15px;
+        }
+        .adopcion-input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #495057;
+        }
+        .adopcion-input-group input {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+        .mascota-seleccionada {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            min-height: 40px;
+            margin-bottom: 15px;
+        }
+        .btn-adopcion {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+            transition: opacity 0.3s;
+        }
+        .btn-adopcion:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-adoptar {
+            background: #28a745;
+            color: white;
+        }
+        .btn-documentos {
+            background: #17a2b8;
+            color: white;
+        }
+        .btn-limpiar {
+            background: #6c757d;
+            color: white;
+        }
+        .radio-group {
+            margin-bottom: 15px;
+        }
+        .radio-group label {
+            margin-right: 15px;
+            font-weight: normal;
+        }
+        #resultadoAdopcion {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            color: #155724;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            color: #721c24;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        .warning {
+            color: #856404;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+        }
+        /* Estilos para notificaciones */
+        .notificacion-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            background: #e7f3ff;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+        }
+        .notificacion-item:last-child {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 
 <body>
 
 <div>
-    <input id="nombreUsuario" type="text" placeholder="Tu nombre">
-    <button id="btnSub">Recibir notificaciones</button>
-    <button id="btnUnsub">Dejar de recibir</button>
+    <input id="nombreUsuario" type="text" placeholder="Tu nombre de usuario" style="padding: 8px; width: 200px;">
+    <button id="btnSub" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Recibir notificaciones</button>
+    <button id="btnUnsub" style="padding: 8px 15px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Dejar de recibir</button>
     <p><strong>Observadores actuales:</strong> <span id="cantObs">0</span></p>
 </div>
 
@@ -138,12 +237,49 @@
 <h3>Tus Notificaciones:</h3>
 <div id="notificaciones"></div>
 
-<div style="margin-top:30px;">
-    <h3>Proceso de Adopción</h3>
-    <input id="usuarioIdInput" type="text" placeholder="Tu nombre de usuario para adoptar">
-    <input id="mascotaIdHidden" type="hidden">
-    <button id="btnAdoptar">Adoptar esta Mascota</button>
-    <p id="resultadoAdopcion" style="margin-top: 15px; font-weight: bold;"></p>
+<!-- SECCIÓN DE ADOPCIÓN MEJORADA -->
+<div class="adopcion-container">
+    <h3>📋 Proceso de Adopción (Facade + Bridge Patterns)</h3>
+
+    <div class="adopcion-input-group">
+        <label for="usuarioIdInput">👤 Tu nombre de usuario:</label>
+        <input id="usuarioIdInput" type="text" placeholder="Ej: admin, cliente, o tu usuario"
+               value="admin">
+    </div>
+
+    <div class="adopcion-input-group">
+        <label>🐕 Mascota seleccionada:</label>
+        <div id="mascotaSeleccionadaInfo" class="mascota-seleccionada">
+            Ninguna mascota seleccionada
+        </div>
+        <input id="mascotaIdHidden" type="hidden">
+    </div>
+
+    <div class="radio-group">
+        <label style="font-weight: bold;">📄 Formato de documentos:</label><br>
+        <label>
+            <input type="radio" name="formatoDocumento" value="pdf" checked> PDF (Recomendado)
+        </label>
+        <label>
+            <input type="radio" name="formatoDocumento" value="html"> HTML (Vista previa)
+        </label>
+    </div>
+
+    <div>
+        <button id="btnAdoptar" class="btn-adopcion btn-adoptar" disabled>
+            ✅ Completar Adopción
+        </button>
+
+        <button id="btnVerDocumentos" class="btn-adopcion btn-documentos" disabled>
+            📄 Generar Documentos
+        </button>
+
+        <button id="btnLimpiarSeleccion" class="btn-adopcion btn-limpiar">
+            🗑️ Limpiar Selección
+        </button>
+    </div>
+
+    <div id="resultadoAdopcion"></div>
 </div>
 
 <script>
@@ -152,6 +288,7 @@
     // ===============================================
     let todasLasMascotas = [];
     let refugiosOriginales = [];
+    let mascotaSeleccionada = null;
 
     // ===============================================
     // FUNCIÓN PARA APLICAR FILTROS (LLAMA AL BACKEND)
@@ -208,7 +345,7 @@
 
         // Si no hay mascotas
         if (!mascotasFiltradas || mascotasFiltradas.length === 0) {
-            contenedor.innerHTML = "<p>No se encontraron mascotas con los filtros seleccionados.</p>";
+            contenedor.innerHTML = "<p style='padding: 20px; text-align: center; color: #666;'>No se encontraron mascotas con los filtros seleccionados.</p>";
             return;
         }
 
@@ -247,45 +384,65 @@
             card.classList.add("ref-card");
 
             card.innerHTML = `
-                <h3>🏠 Refugio: ${refugio.nombre}</h3>
-                <p><strong>Dirección:</strong> ${refugio.direccion}</p>
-                <p><strong>Capacidad:</strong> ${refugio.capacidad}</p>
-                <p><strong>Mascotas mostradas:</strong> ${mascotasDelRefugio.length}</p>
-                <h4 style="margin-top:15px;">🐾 Mascotas:</h4>
+                <h3 style="color: #333;">🏠 Refugio: ${refugio.nombre}</h3>
+                <p><strong>📍 Dirección:</strong> ${refugio.direccion}</p>
+                <p><strong>🏠 Capacidad:</strong> ${refugio.capacidad}</p>
+                <p><strong>🐕 Mascotas mostradas:</strong> ${mascotasDelRefugio.length}</p>
+                <h4 style="margin-top:15px; color: #555;">🐾 Mascotas Disponibles:</h4>
             `;
 
             const listaMascotas = document.createElement("div");
             listaMascotas.style.display = "flex";
             listaMascotas.style.flexWrap = "wrap";
             listaMascotas.style.gap = "15px";
+            listaMascotas.style.marginTop = "10px";
 
             mascotasDelRefugio.forEach(m => {
+                // Verificar si la mascota ya está adoptada
+                const estaAdoptada = m.adoptado || false;
+                const puedeAdoptar = !estaAdoptada;
+
                 const mCard = document.createElement("div");
                 mCard.classList.add("mascota-card");
+
+                if (estaAdoptada) {
+                    mCard.style.opacity = "0.7";
+                    mCard.style.borderColor = "#dc3545";
+                }
 
                 // Agregar clase si hay filtros activos
                 const size = document.getElementById('filtroSize').value;
                 const edadMinima = document.getElementById('filtroEdadMinima').value;
-                if (size || edadMinima > 0) {
+                if ((size || edadMinima > 0) && puedeAdoptar) {
                     mCard.classList.add("mascota-filtrada");
                 }
 
                 mCard.innerHTML = `
                     <img class="mascota-img"
-                         src="${m.imagenUrl || 'https://via.placeholder.com/200'}"
-                         alt="${m.nombre}">
+                         src="${m.imagenUrl || 'https://via.placeholder.com/200?text=🐕'}"
+                         alt="${m.nombre}"
+                         style="${estaAdoptada ? 'filter: grayscale(50%);' : ''}">
 
-                    <h4 style="margin:10px 0 5px;">${m.nombre}</h4>
-                    <p><strong>Raza:</strong> ${m.raza}</p>
-                    <p><strong>Edad:</strong> ${m.edad} años</p>
-                    <p><strong>Sexo:</strong> ${m.sexo}</p>
-                    <p><strong>Tamaño:</strong> ${m.size}</p>
+                    <h4 style="margin:10px 0 5px; color: #333;">
+                        ${m.nombre}
+                        ${estaAdoptada ? '<span style="color: #dc3545; font-size: 12px;"> (Adoptada)</span>' : ''}
+                    </h4>
+                    <p><strong>🐾 Raza:</strong> ${m.raza}</p>
+                    <p><strong>🎂 Edad:</strong> ${m.edad} años</p>
+                    <p><strong>⚥ Sexo:</strong> ${m.sexo}</p>
+                    <p><strong>📏 Tamaño:</strong> ${m.size}</p>
 
                     <button onclick="seleccionarMascota('${m.nombre}', '${m.raza}')"
                         style="margin-top:10px; width:100%; padding:8px; border:none;
-                        background:#4CAF50; color:white; border-radius:5px; cursor:pointer;">
-                        Adoptar
+                        background:${puedeAdoptar ? '#28a745' : '#6c757d'};
+                        color:white; border-radius:5px; cursor:${puedeAdoptar ? 'pointer' : 'not-allowed'};"
+                        ${!puedeAdoptar ? 'disabled' : ''}>
+                        ${puedeAdoptar ? '🏠 Adoptar' : '❌ Adoptada'}
                     </button>
+
+                    <div style="margin-top: 8px; font-size: 11px; color: #666; text-align: center;">
+                        Refugio: ${refugio.nombre}
+                    </div>
                 `;
 
                 listaMascotas.appendChild(mCard);
@@ -343,6 +500,12 @@
     // ===============================================
     async function cargarRefugiosConMascotas() {
         const contenedor = document.getElementById("listaRefugios");
+        contenedor.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <div style="width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                <p>Cargando refugios y mascotas...</p>
+            </div>
+        `;
 
         try {
             const resp = await fetch("/refugios");
@@ -350,7 +513,7 @@
             refugiosOriginales = refugios;
 
             if (!refugios || refugios.length === 0) {
-                contenedor.innerHTML = "<p>No hay refugios registrados.</p>";
+                contenedor.innerHTML = "<p style='padding: 20px; text-align: center; color: #666;'>No hay refugios registrados.</p>";
                 return;
             }
 
@@ -359,6 +522,8 @@
             refugios.forEach(ref => {
                 if (ref.mascotas && ref.mascotas.length > 0) {
                     ref.mascotas.forEach(mascota => {
+                        // Agregar referencia al refugio
+                        mascota.refugioNombre = ref.nombre;
                         todasLasMascotas.push(mascota);
                     });
                 }
@@ -372,25 +537,173 @@
             estadoDiv.textContent = `Mostrando todas las ${todasLasMascotas.length} mascotas`;
 
         } catch (error) {
-            contenedor.innerHTML = "<p>Error cargando refugios.</p>";
-            console.error(error);
+            console.error('Error cargando refugios:', error);
+            contenedor.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #721c24; background: #f8d7da; border-radius: 5px;">
+                    <p>❌ Error cargando refugios</p>
+                    <p><small>${error.message}</small></p>
+                </div>
+            `;
         }
     }
 
     // ===============================================
-    // FUNCIONES AUXILIARES
+    // FUNCIONES DE ADOPCIÓN
     // ===============================================
     function seleccionarMascota(nombre, raza) {
         // Buscar la mascota exacta
-        const mascota = todasLasMascotas.find(m =>
+        mascotaSeleccionada = todasLasMascotas.find(m =>
             m.nombre === nombre && m.raza === raza
         );
 
-        if (mascota) {
-            // Usar nombre como ID temporal
-            document.getElementById("mascotaIdHidden").value = mascota.nombre;
-            alert(`Has seleccionado a ${mascota.nombre} para adopción.`);
+        if (mascotaSeleccionada) {
+            // Verificar si ya está adoptada
+            if (mascotaSeleccionada.adoptado) {
+                alert(`❌ ${mascotaSeleccionada.nombre} ya ha sido adoptada.`);
+                return;
+            }
+
+            // Actualizar campos
+            document.getElementById("mascotaIdHidden").value = mascotaSeleccionada.nombre;
+
+            // Mostrar info de mascota seleccionada
+            const infoDiv = document.getElementById("mascotaSeleccionadaInfo");
+            infoDiv.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <div style="flex-grow: 1;">
+                        <strong style="color: #28a745;">${mascotaSeleccionada.nombre}</strong><br>
+                        <small>Raza: ${mascotaSeleccionada.raza} | Edad: ${mascotaSeleccionada.edad} años</small><br>
+                        <small>Tamaño: ${mascotaSeleccionada.size} | Sexo: ${mascotaSeleccionada.sexo}</small><br>
+                        <small>Refugio: ${mascotaSeleccionada.refugioNombre || 'Desconocido'}</small>
+                    </div>
+                    <div style="color: #28a745; font-size: 24px;">🐕</div>
+                </div>
+            `;
+            infoDiv.style.borderColor = "#28a745";
+            infoDiv.style.backgroundColor = "#d4edda";
+
+            // Habilitar botones
+            document.getElementById("btnAdoptar").disabled = false;
+            document.getElementById("btnVerDocumentos").disabled = false;
+
+            // Mostrar mensaje
+            const resultadoDiv = document.getElementById("resultadoAdopcion");
+            resultadoDiv.innerHTML = `<div class="warning">✅ Has seleccionado a <strong>${mascotaSeleccionada.nombre}</strong> para adopción. Completa el proceso a continuación.</div>`;
+
         }
+    }
+
+    async function completarAdopcion() {
+        const usuarioId = document.getElementById("usuarioIdInput").value;
+        const resultadoDiv = document.getElementById("resultadoAdopcion");
+
+        if (!usuarioId || !mascotaSeleccionada) {
+            resultadoDiv.innerHTML = `<div class="error">❌ Debes ingresar usuario y seleccionar mascota.</div>`;
+            return;
+        }
+
+        // Obtener formato seleccionado
+        const formato = document.querySelector('input[name="formatoDocumento"]:checked').value;
+
+        const url = `/adopciones/adoptar?mascotaNombre=${encodeURIComponent(mascotaSeleccionada.nombre)}&usuarioId=${encodeURIComponent(usuarioId)}`;
+
+        try {
+            resultadoDiv.innerHTML = `<div class="warning">⏳ Procesando adopción de <strong>${mascotaSeleccionada.nombre}</strong>, por favor espera...</div>`;
+            document.getElementById("btnAdoptar").disabled = true;
+            document.getElementById("btnVerDocumentos").disabled = true;
+
+            const resp = await fetch(url, { method: "POST" });
+
+            if (resp.ok) {
+                // Crear enlace para descargar el ZIP
+                const blob = await resp.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = `documentos_adopcion_${mascotaSeleccionada.nombre}.zip`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(downloadUrl);
+
+                resultadoDiv.innerHTML = `<div class="success">✅ ¡Felicidades <strong>${usuarioId}</strong>! Has adoptado a <strong>${mascotaSeleccionada.nombre}</strong>.<br>
+                Los documentos de adopción se han descargado automáticamente.</div>`;
+
+                // Actualizar vista después de 2 segundos
+                setTimeout(() => {
+                    cargarRefugiosConMascotas();
+                    limpiarSeleccion();
+                }, 2000);
+
+            } else {
+                const err = await resp.text();
+                resultadoDiv.innerHTML = `<div class="error">❌ ${err}</div>`;
+                document.getElementById("btnAdoptar").disabled = false;
+                document.getElementById("btnVerDocumentos").disabled = false;
+            }
+
+        } catch (e) {
+            resultadoDiv.innerHTML = `<div class="error">❌ Error de conexión: ${e.message}</div>`;
+            document.getElementById("btnAdoptar").disabled = false;
+            document.getElementById("btnVerDocumentos").disabled = false;
+        }
+    }
+
+    async function verDocumentos() {
+        if (!mascotaSeleccionada) {
+            alert("❌ Primero selecciona una mascota");
+            return;
+        }
+
+        const usuarioId = document.getElementById("usuarioIdInput").value;
+        if (!usuarioId) {
+            alert("❌ Ingresa tu nombre de usuario");
+            return;
+        }
+
+        const formato = document.querySelector('input[name="formatoDocumento"]:checked').value;
+        const url = `/adopciones/documentos?mascotaNombre=${encodeURIComponent(mascotaSeleccionada.nombre)}&usuarioId=${encodeURIComponent(usuarioId)}&formato=${formato}`;
+
+        try {
+            const resp = await fetch(url);
+            if (resp.ok) {
+                if (formato === 'pdf') {
+                    // Para PDF, descargar directamente
+                    const blob = await resp.blob();
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = `certificado_${mascotaSeleccionada.nombre}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(downloadUrl);
+
+                    const resultadoDiv = document.getElementById("resultadoAdopcion");
+                    resultadoDiv.innerHTML = `<div class="success">✅ Certificado de adopción descargado como PDF.</div>`;
+                } else {
+                    // Para HTML, mostrar en nueva pestaña
+                    const htmlContent = await resp.text();
+                    const newWindow = window.open();
+                    newWindow.document.write(htmlContent);
+                    newWindow.document.close();
+                }
+            }
+        } catch (error) {
+            const resultadoDiv = document.getElementById("resultadoAdopcion");
+            resultadoDiv.innerHTML = `<div class="error">❌ Error generando documentos: ${error.message}</div>`;
+        }
+    }
+
+    function limpiarSeleccion() {
+        mascotaSeleccionada = null;
+        document.getElementById("mascotaIdHidden").value = "";
+        document.getElementById("mascotaSeleccionadaInfo").innerHTML = "Ninguna mascota seleccionada";
+        document.getElementById("mascotaSeleccionadaInfo").style.borderColor = "#ddd";
+        document.getElementById("mascotaSeleccionadaInfo").style.backgroundColor = "white";
+        document.getElementById("resultadoAdopcion").innerHTML = "";
+        document.getElementById("btnAdoptar").disabled = true;
+        document.getElementById("btnVerDocumentos").disabled = true;
     }
 
     // ===============================================
@@ -408,6 +721,22 @@
         document.getElementById('filtroEdadMinima').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') aplicarFiltros();
         });
+
+        // Event listeners para adopción
+        document.getElementById("btnAdoptar").addEventListener("click", completarAdopcion);
+        document.getElementById("btnVerDocumentos").addEventListener("click", verDocumentos);
+        document.getElementById("btnLimpiarSeleccion").addEventListener("click", limpiarSeleccion);
+
+        // Autocompletar usuario si está en localStorage
+        const usuarioGuardado = localStorage.getItem("usuario_adopcion");
+        if (usuarioGuardado) {
+            document.getElementById("usuarioIdInput").value = usuarioGuardado;
+        }
+
+        // Guardar usuario en localStorage al cambiar
+        document.getElementById("usuarioIdInput").addEventListener("change", function() {
+            localStorage.setItem("usuario_adopcion", this.value);
+        });
     });
 
     // ===============================================
@@ -419,86 +748,99 @@
     const USUARIO_KEY = "observer_nombre";
 
     async function actualizarCantidad() {
-        const resp = await fetch(`/notificaciones/cantidad`);
-        const data = await resp.json();
-        cantObs.textContent = data.cantidad;
+        try {
+            const resp = await fetch(`/notificaciones/cantidad`);
+            const data = await resp.json();
+            cantObs.textContent = data.cantidad;
+        } catch (error) {
+            console.error("Error cargando cantidad de observadores:", error);
+            cantObs.textContent = "0";
+        }
     }
 
+    // Cargar cantidad inicial
     actualizarCantidad();
 
+    // Cargar nombre guardado
     const nombreGuardado = localStorage.getItem(USUARIO_KEY);
     if (nombreGuardado) {
         nombreInput.value = nombreGuardado;
     }
 
+    // Suscripción
     document.getElementById("btnSub").onclick = async () => {
         const nombre = nombreInput.value;
         if (!nombre) return alert("Por favor, ingresa tu nombre.");
 
-        const resp = await fetch(`/notificaciones/suscribirse?nombre=${nombre}`, {
-            method: "POST"
-        });
+        try {
+            const resp = await fetch(`/notificaciones/suscribirse?nombre=${encodeURIComponent(nombre)}`, {
+                method: "POST"
+            });
 
-        const data = await resp.json();
-        cantObs.textContent = data.cantidad;
-        localStorage.setItem(USUARIO_KEY, nombre);
-        alert(`Suscripción exitosa para ${nombre}`);
+            const data = await resp.json();
+            cantObs.textContent = data.cantidad;
+            localStorage.setItem(USUARIO_KEY, nombre);
+            alert(`✅ Suscripción exitosa para ${nombre}`);
+        } catch (error) {
+            alert("❌ Error en la suscripción. Intenta nuevamente.");
+        }
     };
 
+    // Desuscripción
     document.getElementById("btnUnsub").onclick = async () => {
         const nombre = nombreInput.value;
         if (!nombre) return alert("Por favor, ingresa tu nombre.");
 
-        const resp = await fetch(`/notificaciones/desuscribirse?nombre=${nombre}`, {
-            method: "POST"
-        });
-
-        const data = await resp.json();
-        cantObs.textContent = data.cantidad;
-        localStorage.removeItem(USUARIO_KEY);
-        alert(`Desuscripción exitosa para ${nombre}`);
-    };
-
-    // ===============================================
-    // PROCESO DE ADOPCIÓN
-    // ===============================================
-    document.getElementById("btnAdoptar").onclick = async () => {
-        const usuarioId = document.getElementById("usuarioIdInput").value;
-        const mascotaNombre = document.getElementById("mascotaIdHidden").value;
-        const resultado = document.getElementById("resultadoAdopcion");
-
-        if (!usuarioId || !mascotaNombre) {
-            resultado.style.color = "red";
-            resultado.textContent = "Debes ingresar usuario y seleccionar mascota.";
-            return;
-        }
-
-        // Aquí deberías usar el ID real de la mascota
-        // Por ahora usamos el nombre como referencia
-        const url = `/adopciones/adoptar?mascotaNombre=${encodeURIComponent(mascotaNombre)}&usuarioId=${encodeURIComponent(usuarioId)}`;
-
         try {
-            const resp = await fetch(url, { method: "POST" });
+            const resp = await fetch(`/notificaciones/desuscribirse?nombre=${encodeURIComponent(nombre)}`, {
+                method: "POST"
+            });
 
-            if (resp.ok) {
-                const msg = await resp.text();
-                resultado.style.color = "green";
-                resultado.textContent = msg;
-                document.getElementById("btnAdoptar").disabled = true;
-
-                // Recargar después de adoptar
-                cargarRefugiosConMascotas();
-            } else {
-                const err = await resp.text();
-                resultado.style.color = "red";
-                resultado.textContent = err;
-            }
-
-        } catch (e) {
-            resultado.style.color = "red";
-            resultado.textContent = "Error de conexión.";
+            const data = await resp.json();
+            cantObs.textContent = data.cantidad;
+            localStorage.removeItem(USUARIO_KEY);
+            alert(`✅ Desuscripción exitosa para ${nombre}`);
+        } catch (error) {
+            alert("❌ Error en la desuscripción. Intenta nuevamente.");
         }
     };
+
+    // Función para cargar notificaciones (si tienes endpoint)
+    async function cargarNotificaciones() {
+        try {
+            const resp = await fetch('/notificaciones/mis-notificaciones?usuario=' + encodeURIComponent(nombreInput.value));
+            if (resp.ok) {
+                const notificaciones = await resp.json();
+                if (notificaciones && notificaciones.length > 0) {
+                    notificacionesDiv.innerHTML = notificaciones.map(n =>
+                        `<div class="notificacion-item">${n}</div>`
+                    ).join('');
+                } else {
+                    notificacionesDiv.innerHTML = "<p>No tienes notificaciones nuevas.</p>";
+                }
+            }
+        } catch (error) {
+            console.error("Error cargando notificaciones:", error);
+        }
+    }
+
+    // Cargar notificaciones cada 30 segundos
+    setInterval(cargarNotificaciones, 30000);
+
+    // Cargar notificaciones iniciales si hay usuario
+    if (nombreGuardado) {
+        setTimeout(cargarNotificaciones, 1000);
+    }
+
+    // Estilo para spinner
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    `;
+    document.head.appendChild(style);
 
 </script>
 
