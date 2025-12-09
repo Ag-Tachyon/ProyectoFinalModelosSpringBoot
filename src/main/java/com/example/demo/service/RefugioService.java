@@ -15,9 +15,9 @@ import java.util.List;
 @Service
 public class RefugioService {
 
-    private final List<Refugio> refugios = new ArrayList<>();
-    private RefugiosData refugiosData = RefugiosData.getAdministrador();
 
+    private RefugiosData refugiosData = RefugiosData.getAdministrador();
+    private final List<Refugio> refugios = refugiosData.leerDatos();
 
     public List<Refugio> obtenerTodos() {
         return refugios;

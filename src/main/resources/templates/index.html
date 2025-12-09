@@ -92,11 +92,18 @@
                         Admin
                         <input type="checkbox" th:field="*{esAdmin}"/>
                     </label>
-                    
+
                     <div class="form__btn-conatainer">
-                        <a href="./inicio_sesion" class="">ya tengo cuenta</a>
+
+                        <!-- BOTÓN estilo igual al de "Unirme", pero sin enviar el form -->
+                        <button type="button" class="btn-submit"
+                                onclick="window.location.href='/inicio_sesion'">
+                            Ya tengo cuenta
+                        </button>
+
                         <button class="btn-submit" type="submit">Unirme</button>
                     </div>
+
                 </form>
             </div>
 
