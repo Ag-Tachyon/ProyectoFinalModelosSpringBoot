@@ -2,17 +2,18 @@ package com.example.demo.service;
 
 import com.example.demo.model.Mascota;
 import com.example.demo.model.Usuario;
-import com.example.demo.repository.MascotaRepository;
+import com.example.demo.repository.MascotaFileRepository;
+import com.example.demo.repository.UsuarioFileRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AdopcionService {
 
     // Asumiendo que tienes repositorios para acceder a los datos
-    private final MascotaRepository mascotaRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final MascotaFileRepository mascotaRepository;
+    private final UsuarioFileRepository usuarioRepository;
 
-    public AdopcionService(MascotaRepository mascotaRepository, UsuarioRepository usuarioRepository) {
+    public AdopcionService(MascotaFileRepository mascotaRepository, UsuarioFileRepository usuarioRepository) {
         this.mascotaRepository = mascotaRepository;
         this.usuarioRepository = usuarioRepository;
     }
@@ -27,7 +28,7 @@ public class AdopcionService {
 
         // 1. Obtener la Mascota y el Usuario
         Mascota mascota = mascotaRepository.findById(mascotaId);
-        Usuario usuario = usuarioRepository.findById(usuarioId);
+        Usuario usuario = usuarioRepository.findByNombre(usuarioId);
 
         if (mascota == null || usuario == null) {
             throw new RuntimeException("Mascota o Usuario no encontrado.");
