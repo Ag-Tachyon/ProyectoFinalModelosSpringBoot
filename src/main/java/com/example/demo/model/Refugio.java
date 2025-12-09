@@ -1,9 +1,25 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Refugio {
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipo"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = RefugioGatos.class, name = "gatos"),
+        @JsonSubTypes.Type(value = RefugioPerros.class, name = "perros")
+})
+
+public abstract class Refugio implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String nombre;
     private String direccion;
@@ -25,7 +41,6 @@ public abstract class Refugio {
     public abstract String mostrarInfoRefugio();
 
     public abstract void registrarMascota(Mascota mascota);
-
 
     // GETTERS Y SETTERS
     public String getNombre() { return nombre; }
