@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public class UsuarioFileRepository {
 
-    private final String FILE_PATH = "usuarios.data";
+    private final String FILE_PATH = "data/usuarios.data";
     private List<Usuario> usuarios = new ArrayList<>();
 
     public UsuarioFileRepository() {
