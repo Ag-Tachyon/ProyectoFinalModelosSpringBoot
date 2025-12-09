@@ -3,7 +3,9 @@ package com.example.demo.model;
 import com.example.demo.visitor.RefugioElement;
 import com.example.demo.visitor.RefugioVisitor;
 
-public class RefugioGatos extends Refugio implements RefugioElement {
+import java.io.Serializable;
+
+public class RefugioGatos extends Refugio implements RefugioElement, Serializable {
 
     public RefugioGatos(String nombre, String direccion, int capacidad) {
         super(nombre, direccion, capacidad);

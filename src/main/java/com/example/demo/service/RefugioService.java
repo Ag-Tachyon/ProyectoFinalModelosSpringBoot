@@ -20,7 +20,7 @@ public class RefugioService {
     private final List<Refugio> refugios = refugiosData.leerDatos();
 
     public List<Refugio> obtenerTodos() {
-        return refugios;
+        return refugiosData.leerDatos();
     }
 
     public void agregarRefugio(Refugio refugio) {
